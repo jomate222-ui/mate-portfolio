@@ -17,9 +17,13 @@ U direktoriju projekta pokreni `python -m http.server 8000` i otvori http://loca
 ## Prije javne objave
 
 - Zamijeni `EMAIL_ADRESA_OVDJE` u `index.html`.
-- Dodaj fotografije i provjerene linkove za NK Gavran Lanište i Zauvijek si tu.
+- Dodaj provjerene screenshotove za NK Gavran Lanište i Zauvijek si tu; te stranice nemaju potvrđen live URL.
 - Pregledaj i odobri tekstove studija slučaja.
-- Slike `assets/case-1.png` do `case-7.png` su prikazi iz dostavljenog PDF-a.
+- Projektni podaci za naslovnicu i svih devet studija slučaja nalaze se u `assets/projects.js`; predloške prikazuje `assets/portfolio.js`.
+- Croatian website copy, English translations, homepage biography, and editable bilingual career milestones live in `assets/i18n.js`.
+- Replace the portrait placeholder by adding `assets/mate-portrait.jpg`; both portrait frames use this single shared path.
+- Slike `assets/case-1.png` do `case-7.png` postojeći su prikazi projekata sa snimkama odgovarajućih web stranica; njihove optimizirane WebP verzije koriste se na naslovnici i pripadajućim studijama slučaja.
+- Cijene koje nisu potvrđene ostaju označene kao mjesta za unos; live linkovi nisu dodani projektima bez potvrđenog URL-a.
 - Web koristi Google Fonts (DM Sans i Space Grotesk); bez interneta pada na lokalni sans-serif.
 
 

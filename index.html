@@ -9,7 +9,7 @@
   <link href="assets/style.css" rel="stylesheet">
   <script defer src="assets/main.js"></script>
 </head>
-<body style="--portrait-image:url('assets/mate-portrait.png')">
+<body>
   <header class="top">
     <nav class="wrap nav" aria-label="Glavna navigacija" data-i18n-aria-label="mainNav">
       <a class="logo" href="index.html" aria-label="Mate Nikić — naslovnica" data-i18n-aria-label="homeLabel">MATE<span>.</span>NIKIĆ</a>
@@ -45,11 +45,8 @@
             <a class="btn" href="#about" data-i18n="moreAbout">Više o meni</a>
           </div>
         </div>
-        <div class="portrait-frame hero-portrait reveal" role="img" aria-label="Prostor za fotografiju Mate Nikića" data-i18n-aria-label="portraitLabel">
-          <div class="portrait-placeholder">
-            <span class="portrait-mark" aria-hidden="true">MN</span>
-            <span class="portrait-note" data-i18n="portraitNote">Ovdje dolazi moja fotografija</span>
-          </div>
+        <div class="portrait-frame hero-portrait">
+          <img class="portrait-image" src="assets/mate-portrait.png" alt="Portret Mate Nikića">
           <div class="portrait-caption"><strong>MATE NIKIĆ</strong><span data-i18n="portraitRole">DIGITAL &amp; MARKETING</span></div>
         </div>
       </section>
@@ -136,12 +133,9 @@
             <a class="text-link" href="#contact" data-i18n="aboutContact">Razgovarajmo o tome što vam treba ↗</a>
           </div>
           <div class="about-aside">
-            <div class="portrait-frame about-portrait reveal" role="img" aria-label="Prostor za fotografiju Mate Nikića" data-i18n-aria-label="portraitLabel">
-              <div class="portrait-placeholder">
-                <span class="portrait-mark" aria-hidden="true">MN</span>
-                <span class="portrait-note" data-i18n="aboutPhotoNote">Fotografija će biti dodana naknadno</span>
-              </div>
-              <div class="portrait-caption"><strong>MATE NIKIĆ</strong><span data-i18n="aboutPhoto">PROSTOR ZA DRUGI PORTRET</span></div>
+            <div class="portrait-frame about-portrait">
+              <img class="portrait-image" src="assets/mate-portrait.png" alt="Portret Mate Nikića">
+              <div class="portrait-caption"><strong>MATE NIKIĆ</strong></div>
             </div>
             <div class="facts-panel reveal">
               <p class="panel-label" data-i18n="aboutFacts">UKRATKO</p>

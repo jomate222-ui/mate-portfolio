@@ -1,7 +1,15 @@
-const toggle=document.querySelector('.navbtn');if(toggle)toggle.addEventListener('click',()=>{const menu=document.querySelector('.navlinks');const open=menu.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open))});document.querySelectorAll('.navlinks a').forEach(a=>a.addEventListener('click',()=>{document.querySelector('.navlinks')?.classList.remove('open');toggle?.setAttribute('aria-expanded','false')}));if('IntersectionObserver'in window){const ob=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ob.unobserve(e.target)}}),{threshold:.07});document.querySelectorAll('.reveal').forEach(e=>ob.observe(e))}else document.querySelectorAll('.reveal').forEach(e=>e.classList.add('visible'));
-// Homepage filters: service category + search; no invented price ranges.
-(()=>{const cards=[...document.querySelectorAll('.project[data-categories]')];if(!cards.length)return;const buttons=[...document.querySelectorAll('[data-filter]')],input=document.querySelector('#project-search'),counter=document.querySelector('#project-count'),empty=document.querySelector('#no-projects');let category='all';function update(){const q=(input?.value||'').trim().toLocaleLowerCase('hr');let n=0;cards.forEach(card=>{const match=(category==='all'||card.dataset.categories.split(' ').includes(category))&&(!q||card.textContent.toLocaleLowerCase('hr').includes(q));card.hidden=!match;if(match)n++});counter.textContent=n+' '+(n===1?'projekt':n>=2&&n<=4?'projekta':'projekata');empty.hidden=n!==0;}buttons.forEach(btn=>btn.addEventListener('click',()=>{category=btn.dataset.filter;buttons.forEach(b=>{b.classList.toggle('active',b===btn);b.setAttribute('aria-pressed',String(b===btn))});update()}));input?.addEventListener('input',update);document.querySelector('#reset-filters')?.addEventListener('click',()=>{input.value='';buttons[0].click()});update()})();
+(() => {
+  const base = new URL(".", document.currentScript.src);
+  const files = ["projects.js", "i18n.js", "portfolio.js", "site.js"];
 
-// Budget placeholder: until actual price bands exist, both options retain all projects.
-const budgetSelect=document.querySelector('#project-budget');
-budgetSelect?.addEventListener('change',()=>{document.querySelector('#project-count')?.setAttribute('aria-label','Sve cijene su trenutačno na upit')});
+  const load = (file) => new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = new URL(file, base).href;
+    script.onload = resolve;
+    script.onerror = () => reject(new Error(`Unable to load ${file}.`));
+    document.body.append(script);
+  });
+
+  files.reduce((chain, file) => chain.then(() => load(file)), Promise.resolve())
+    .catch((error) => console.error("Portfolio initialization failed.", error));
+})();

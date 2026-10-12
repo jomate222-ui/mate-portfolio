@@ -437,6 +437,7 @@
         src: image.src,
         width: image.width || 2160,
         height: image.height || 1215,
+        presentation: image.presentation,
         alt: image.alt?.[lang] || image.alt?.hr || project.name
       }));
   };
@@ -446,7 +447,7 @@
     if (!slides.length) return "";
 
     const images = slides.map((slide, index) => `
-      <img src="${escapeHtml(slide.src)}" alt="${escapeHtml(slide.alt)}" width="${slide.width || 2160}" height="${slide.height || 1215}" ${index ? 'loading="lazy"' : 'fetchpriority="high"'} decoding="async" aria-hidden="${index !== 0}"${index ? " hidden" : ""}>`).join("");
+      <img${slide.presentation === "logo" ? ' class="gallery-image-logo"' : ""} src="${escapeHtml(encodeURI(slide.src))}" alt="${escapeHtml(slide.alt)}" width="${slide.width || 2160}" height="${slide.height || 1215}" ${index ? 'loading="lazy"' : 'fetchpriority="high"'} decoding="async" aria-hidden="${index !== 0}"${index ? " hidden" : ""}>`).join("");
     if (slides.length === 1) {
       return `<figure class="case-visual case-gallery-single">${images}</figure>`;
     }
@@ -637,7 +638,7 @@
       <section class="case-hero">
         <a class="text-link" href="index.html?lang=${lang}#work">${escapeHtml(translate("caseBack", lang))}</a>
         <div class="eyebrow" style="margin-top: 38px">${escapeHtml(translate("caseStudyPrefix", lang))} / ${escapeHtml(project.number)} · ${escapeHtml(project.caseCategory)}</div>
-        <h1>${escapeHtml(project.name)}</h1>
+        <h1>${escapeHtml(project.caseTitle || project.name)}</h1>
         <p class="case-lead">${escapeHtml(project.lead)}</p>
         <div class="actions">
           ${liveLink}
@@ -668,7 +669,7 @@
     initializeCaseGallery(main);
     initializeProjectCarousel(main);
     updateMetadata({
-      title: `${project.name} — ${translate("caseStudyPrefix", lang)} | Mate Nikić`,
+      title: `${project.caseTitle || project.name} — ${translate("caseStudyPrefix", lang)} | Mate Nikić`,
       description: projectText(project.caseSummary),
       image: project.cardImage || "assets/mate-portrait.png",
       caseId: project.id

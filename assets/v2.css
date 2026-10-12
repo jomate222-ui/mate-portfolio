@@ -1426,6 +1426,18 @@ img {
   display: none;
 }
 
+.case-gallery-stage img.gallery-image-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(72%, 680px);
+  height: min(72%, 460px);
+  max-width: 72%;
+  max-height: 72%;
+  transform: translate(-50%, -50%);
+  object-fit: contain;
+}
+
 .gallery-arrow {
   width: 42px;
   height: 42px;
@@ -1576,6 +1588,10 @@ img {
 
 .case-copy p {
   margin: 0;
+}
+
+.case-copy p + p {
+  margin-top: 12px;
 }
 
 .case-copy ul {

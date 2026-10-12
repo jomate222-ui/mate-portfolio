@@ -579,7 +579,7 @@ window.PORTFOLIO_I18N = {
     "myrbqm-academy": {
       cardCategory: "Education / Software",
       industry: "Education / Software",
-      role: "E-commerce · LMS · CRM",
+      role: "Web design · E-commerce · LMS · CRM · SEO",
       technologies: ["WordPress", "Elementor Pro", "WooCommerce", "HubSpot", "GA4"],
       duration: "3 months",
       price: "Price to be confirmed",
@@ -589,18 +589,39 @@ window.PORTFOLIO_I18N = {
       cardDescription: "An education shop with automated purchases, course enrolments and connected systems.",
       cardServices: ["Website and user experience redesign", "WooCommerce shop and checkout", "Automated purchase-to-LMS connection", "HubSpot, GA4, and conversion tracking"],
       cardLabel: "Redesign · Before / After",
-      lead: "Redesign, e-commerce, and LMS integration",
+      lead: "Website redesign, e-commerce, and LMS integration",
       caseCategory: "E-commerce · Education / Software",
-      caseSummary: "Redesigned and developed a digital academy bringing together a website, online shop, and learning platform. After a successful purchase, users are automatically given access to the relevant courses in the LMS.",
-      goal: "Connect the online shop and learning platform in one journey, from purchase through to course access.",
-      contributions: ["Platform strategy, design, and structure", "WooCommerce shop and checkout", "WordPress + Elementor Pro", "Automated WooCommerce-to-LMS integration", "HubSpot CRM, forms, and automation", "SEO, GA4, analytics, and conversion tracking"],
-      solution: "The work brought together platform strategy, design and structure, a WooCommerce shop and checkout, WordPress + Elementor Pro, and automated WooCommerce-to-LMS integration.",
-      results: "The case study documents the approach and delivered functionality. Confirmed numerical results are not available for publication."
+      caseSummary: [
+        "The academy's existing online shop was outdated and connected to an LMS that was meant to grant course access automatically after purchase. Technical issues, unreliable integrations, and a dated user experience, however, caused frequent problems and placed an added burden on customer support.",
+        "Rather than continuing to resolve issues one by one, we decided to build a completely new academy with a modern shop and a reliable LMS integration."
+      ],
+      goal: [
+        "Provide a simple, clear, and reliable experience throughout the entire journey — from browsing courses and choosing one to completing a purchase and gaining automatic access to the content.",
+        "The key goals were to eliminate unnecessary manual work, reduce user issues, and create a scalable platform ready for future growth."
+      ],
+      contributions: [
+        "Designed and built the academy's new website",
+        "Set up the WooCommerce shop and optimized the purchasing process",
+        "Implemented an automated integration between the shop and LMS",
+        "Configured automatic access to purchased courses",
+        "Connected the shop to HubSpot CRM",
+        "Implemented GA4 analytics and conversion tracking",
+        "Carried out SEO optimization and continuously monitored performance"
+      ],
+      solution: [
+        "I began by defining the user journey, functional requirements, and strategy for the new platform. After creating the design, I built the website and online shop, then integrated the LMS so students would receive automatic access to their courses after a successful purchase.",
+        "After launch, I continued to monitor user behaviour, refine the purchasing process, and adjust the SEO strategy. Ongoing optimization over the following months helped the academy reach Google's first page for targeted search terms."
+      ],
+      results: [
+        "The new academy made purchasing simpler and faster, automated access to courses, and provided a significantly more reliable user experience.",
+        "Revenue reached €45,000 in the first six months, with more purchases than in the preceding period. The streamlined checkout and improved user experience may have contributed to sales growth, while SEO work improved the academy's organic visibility on Google.",
+        "The result is a modern, automated, and scalable learning platform."
+      ]
     },
     "splitska-estetska-akademija": {
       cardCategory: "Education / Aesthetic medicine",
       industry: "Education / Aesthetic medicine",
-      role: "Web development · student portal",
+      role: "Web design · Website development · Student portal · CMS · SEO",
       technologies: ["WordPress", "Elementor Pro"],
       duration: "3 months",
       price: "Price to be confirmed",
@@ -610,18 +631,40 @@ window.PORTFOLIO_I18N = {
       cardDescription: "A designed and developed website presenting the academy’s courses clearly.",
       cardServices: ["UX/UI design and website development", "Private student portal", "Timetables and learning materials", "Croatian and English versions, SEO, and analytics"],
       cardLabel: "Website · Student portal",
-      lead: "Website and student portal",
+      lead: "Website, student portal, and content management system",
       caseCategory: "Education · Aesthetic medicine",
-      caseSummary: "Designed and developed a modern web platform for Splitska estetska akademija, alongside a private student portal where enrolled students can access timetables, learning materials, and updates.",
-      goal: "Bring the academy’s public-facing website and private student space together.",
-      contributions: ["Website structure, UX/UI design, and development", "Private student portal and user accounts", "WordPress + Elementor Pro", "Lecture and event timetable", "Croatian and English language support", "SEO, analytics, and technical optimization"],
-      solution: "The project combined website structure, UX/UI design and development, a private student portal and user accounts, WordPress + Elementor Pro, and a timetable for lectures and events.",
-      results: "The case study documents the approach and delivered functionality. Confirmed numerical results are not available for publication."
+      caseSummary: [
+        "Splitska estetska akademija needed a modern digital platform to present its courses professionally and give students easy access to timetables, materials, and announcements.",
+        "A particular challenge was finding and developing a system that would let the academy's instructors manage content independently, publish updates, and maintain schedules without technical expertise or outside support."
+      ],
+      goal: [
+        "Create a professional, visually engaging website that clearly presents the academy, alongside a private student portal bringing together essential course information.",
+        "It was equally important to make the platform easy to manage, so instructors could add content, update schedules, and share important information with students on their own."
+      ],
+      contributions: [
+        "Planned the structure, designed the UX/UI, and built the complete website",
+        "Developed a private student portal with user accounts",
+        "Researched and implemented a CMS tailored to the instructors' needs",
+        "Simplified administration and the publishing of new information",
+        "Implemented a timetable for lectures and upcoming events",
+        "Organized access to learning materials and student announcements",
+        "Implemented Croatian and English language support",
+        "Carried out SEO, responsive, and technical optimization"
+      ],
+      solution: [
+        "I began by analyzing the needs of the academy, its instructors, and its students. The goal was not just to create a visually polished website, but to find a sustainable solution the academy could manage independently over the long term.",
+        "After defining the structure and design, I built the website and private student portal, paying particular attention to the content management system. I tailored the administration to instructors' everyday needs so publishing updates, maintaining schedules, and managing learning content would be as straightforward as possible."
+      ],
+      results: [
+        "The academy now has a modern website, a functional student portal, and a simple system for managing content independently.",
+        "Instructors can publish updates, maintain schedules, and manage learning materials without relying on ongoing technical support. Students can find all essential information in one organized place.",
+        "The result is a sustainable digital platform that simplifies administration, makes courses easier to organize, and provides a better user experience."
+      ]
     },
     "mihaela-petrovic": {
       cardCategory: "Fitness / Personal brand",
       industry: "Fitness / Personal brand",
-      role: "Branding · web development",
+      role: "Branding · Graphic design · UX/UI · Website development · SEO",
       technologies: ["WordPress", "Elementor Pro"],
       duration: "1 month",
       price: "Price to be confirmed",
@@ -631,18 +674,42 @@ window.PORTFOLIO_I18N = {
       cardDescription: "Service presentation, website design and a clearer path for prospective clients to enquire.",
       cardServices: ["Visual identity and logo", "Website design and development", "Online programs and lead forms", "Blog, SEO, and multilingual content"],
       cardLabel: "Branding · Website",
-      lead: "Personal brand, website, and online programs",
+      lead: "Brand identity, website, and online fitness programs",
       caseCategory: "Fitness · Personal brand",
-      caseSummary: "Developed a digital identity and website for a personal fitness brand, from the visual identity and logo to a website structure that guides visitors towards online programs.",
-      goal: "Build a recognizable fitness brand and a clear path to its online programs.",
-      contributions: ["Website structure, UX/UI design, and development", "Online programs and lead-generation forms", "WordPress + Elementor Pro", "Logo and brand guidelines", "Blog and conversion-focused calls to action", "Multilingual content, SEO, and mobile optimization"],
-      solution: "The work included website structure, UX/UI design and development, online programs and lead-generation forms, WordPress + Elementor Pro, and the logo and brand guidelines.",
-      results: "The case study documents the approach and delivered functionality. Confirmed numerical results are not available for publication."
+      caseSummary: [
+        "The project began with the idea of building a recognizable personal fitness brand that would introduce Mihaela's expertise, experience, and approach to training to a wider audience.",
+        "The work called for a complete visual identity, from the logo and colour palette to the website design, and a digital platform bringing together the personal brand, educational content, and online fitness programs."
+      ],
+      goal: [
+        "Build an authentic, professional, and recognizable personal brand that reflects Mihaela's personality and approach to fitness.",
+        "The website needed to present her services and programs clearly, make it easy to get in touch, and reach a wider audience—including potential clients outside Croatia—through a blog and multilingual content."
+      ],
+      contributions: [
+        "Created the complete visual identity and designed the logo",
+        "Defined the brand colours, typography, and guidelines",
+        "Designed the UX/UI and built the complete website",
+        "Structured and presented the online fitness programs and services",
+        "Implemented contact and lead-generation forms",
+        "Created a blog for educational content and organic visibility",
+        "Implemented Croatian and English language support",
+        "Carried out SEO, responsive, and technical optimization"
+      ],
+      solution: [
+        "I began by understanding Mihaela's personality, target audience, and how she wanted to present her work. Based on that, I created the visual identity, logo, and design guidelines to bring together professionalism, energy, and a personal approach to training.",
+        "Once the brand was defined, I developed a modern, responsive website with a clear program structure, calls to action, and a straightforward way for visitors to enquire.",
+        "I also added multilingual content and a blog so the platform could support a wider audience, educational publishing, and long-term organic search visibility."
+      ],
+      results: [
+        "Mihaela gained a complete, consistent visual identity and a professional digital platform bringing together her personal brand, fitness programs, and educational content.",
+        "The new website presents her services more clearly, makes it easier to receive enquiries, and supports better communication with prospective clients.",
+        "Multilingual content and the blog laid the groundwork for reaching an international audience and growing organic visibility over time.",
+        "The result is a distinctive personal brand with a digital platform ready for further development and promotion of online fitness programs."
+      ]
     },
     "promat-projekti": {
       cardCategory: "Construction / Real estate",
       industry: "Construction / Real estate",
-      role: "Branding · two websites",
+      role: "Branding · Graphic design · UX/UI · Website development · Digital advertising",
       technologies: ["WordPress", "Elementor Pro"],
       duration: "2 months",
       price: "Price to be confirmed",
@@ -652,18 +719,46 @@ window.PORTFOLIO_I18N = {
       cardDescription: "Two separate website projects focused on presenting properties and real estate.",
       cardServices: ["Brand identity and logo", "Design and development of two websites", "Real estate project presentation", "Multilingual content and SEO"],
       cardLabel: "Two websites",
-      lead: "Branding and digital identity",
+      lead: "Branding and digital identity development",
       caseCategory: "Construction · Real estate",
-      caseSummary: "Developed a complete digital identity for a company specializing in construction and real estate projects. The work included a brand, logo, and two separate multilingual websites.",
-      goal: "Create a consistent digital identity for the company and its real estate project.",
-      contributions: ["Visual identity and branding", "Logo design and development", "Website UX/UI and structure", "WordPress + Elementor Pro", "Development of two separate websites", "Multilingual content, SEO, and optimization"],
-      solution: "The project brought together visual identity and branding, logo design, website UX/UI and structure, and WordPress + Elementor Pro.",
-      results: "The case study documents the approach and delivered functionality. Confirmed numerical results are not available for publication."
+      caseSummary: [
+        "Promat Projekti, a company specializing in construction and real estate projects, had no established visual identity or professional digital presence.",
+        "The project began with building the brand from the ground up, including a logo, visual identity, and main website to present the company and its projects.",
+        "Alongside the corporate website, a separate website was needed for Vir Oasis Estate, a specific real estate development to be presented independently and promoted through digital advertising."
+      ],
+      goal: [
+        "Build a professional, recognizable brand that earns the trust of prospective investors, partners, and property buyers.",
+        "The main website needed to present the company and its portfolio, while a separate Vir Oasis Estate website would explain the development in detail, highlight its advantages, and encourage interested buyers to enquire.",
+        "The goal was to create two visually connected but functionally distinct digital platforms."
+      ],
+      contributions: [
+        "Created the company's complete visual identity and designed its logo",
+        "Defined the brand colours, typography, and guidelines",
+        "Designed the UX/UI and built two separate websites",
+        "Developed the corporate website and its portfolio of construction and real estate projects",
+        "Created a dedicated presentation website for Vir Oasis Estate",
+        "Structured content and calls to action to attract prospective buyers",
+        "Implemented contact forms for enquiries",
+        "Prepared and ran digital advertising for the real estate development",
+        "Carried out SEO, responsive, and technical optimization on both websites"
+      ],
+      solution: [
+        "I began by defining the company's identity, target audience, and desired market position. From there, I created the logo, visual guidelines, and designs for the digital platforms.",
+        "First, I developed the Promat Projekti corporate website, focusing on a professional presentation of the company, its services, and completed projects.",
+        "I then built a separate website for Vir Oasis Estate, tailored to presenting a single real estate development. The focus was on engaging visuals, clear information, and a straightforward path from interest to enquiry.",
+        "The dedicated website also served as the destination for digital advertising campaigns, keeping promotion of the specific development separate from general corporate communications."
+      ],
+      results: [
+        "Promat Projekti gained a complete visual identity and a professional digital presence built from the ground up.",
+        "The main website provides a stronger presentation of the company and its portfolio, while Vir Oasis Estate has its own digital presence focused on prospective buyers.",
+        "Connecting the dedicated development website with digital advertising created a direct channel for promoting the property and receiving enquiries from interested buyers.",
+        "The result is a consistent, recognizable brand with two digital platforms supporting distinct business goals: long-term company visibility and targeted promotion of individual projects."
+      ]
     },
     "skybox-sales": {
       cardCategory: "B2B / Business development",
       industry: "B2B / Sales",
-      role: "B2B website · lead generation",
+      role: "UX/UI · Website development · Lead generation · Digital advertising · SEO",
       technologies: ["WordPress", "Elementor Pro"],
       duration: "2 months",
       price: "Price to be confirmed",
@@ -673,19 +768,45 @@ window.PORTFOLIO_I18N = {
       cardDescription: "A website presenting the company, its services and business solutions.",
       cardServices: ["B2B website UX/UI and structure", "Services and case study presentation", "Lead-generation forms and calls to action", "Mobile and technical optimization"],
       cardLabel: "B2B website",
-      lead: "B2B website and lead generation",
+      lead: "B2B website redesign, lead generation, and digital advertising",
       caseCategory: "B2B · Business development",
-      caseSummary: "Designed and developed a new website for an international B2B sales and business development agency. The focus was on a clear presentation of services, case studies, and a user journey that supports enquiries.",
-      goal: "Present B2B services clearly and make it easier for visitors to get in touch.",
-      contributions: ["Website structure, UX/UI design, and development", "Service and case study structure", "WordPress + Elementor Pro", "Lead-generation forms and calls to action", "Responsive and mobile optimization", "SEO, performance, and technical optimization"],
-      solution: "The work combined website structure, UX/UI design and development, service and case study structure, WordPress + Elementor Pro, and lead-generation forms and calls to action.",
-      results: "The case study documents the approach and delivered functionality. Confirmed numerical results are not available for publication."
+      caseSummary: [
+        "Skybox Sales, an agency specializing in B2B sales and business development, already had a website, but it was not making full use of its potential to attract new clients.",
+        "The project called for a design refresh, a clearer presentation of services, and an improved user journey. Alongside the redesign, the aim was to develop an additional tool for generating quality business enquiries and connect it to digital advertising."
+      ],
+      goal: [
+        "Create a professional B2B website that communicates the value of the services clearly, builds trust, and encourages visitors to get in touch.",
+        "A particular focus was increasing relevant monthly enquiries, simplifying the user journey, and finding a more effective way to attract prospective clients who fit the agency's target audience."
+      ],
+      contributions: [
+        "Designed a new UX/UI and redesigned the existing website",
+        "Restructured the presentation of B2B services and business solutions",
+        "Optimized the user journey, contact forms, and calls to action",
+        "Developed an interactive ICP quiz to assess prospective client profiles",
+        "Designed the quiz flow and lead-capture process",
+        "Prepared and ran digital advertising for the ICP quiz",
+        "Improved the presentation of case studies and references",
+        "Carried out SEO, responsive, and technical optimization"
+      ],
+      solution: [
+        "I began by reviewing the existing website and identifying opportunities to improve the user experience and enquiry generation.",
+        "I redesigned the website with a clearer service structure, a more compelling presentation of business solutions, and strategically placed calls to action.",
+        "At the same time, I developed an interactive ICP quiz that helps visitors assess their ideal customer profile through a series of questions. The quiz also served as a lead-generation tool, while digital advertising helped us reach a new, relevant B2B audience.",
+        "This connected the website, interactive content, and advertising into one process for attracting prospective clients."
+      ],
+      results: [
+        "The redesigned website presents Skybox Sales more professionally, communicates its services more clearly, and makes it easier to send a business enquiry.",
+        "After the new solutions were implemented, the website recorded an increase in monthly enquiries, becoming a more effective channel for generating business opportunities.",
+        "The ICP quiz created an additional way to attract prospective clients through interactive content and targeted digital advertising.",
+        "The result is a modernized B2B platform that does more than present the company: it actively supports its sales and marketing activities."
+      ]
     },
     "landing-pages": {
+      caseTitle: "Landing Pages & Campaigns",
       cardCategory: "Performance marketing",
       industry: "B2B / B2C",
-      role: "Campaigns · tracking · automation",
-      technologies: ["WordPress", "Elementor", "Unbounce", "HubSpot", "GA4", "GTM"],
+      role: "Strategy · UX/UI · Landing pages · Digital advertising · CRM · Analytics",
+      technologies: ["WordPress", "Elementor Pro", "Unbounce", "HubSpot", "GA4", "GTM", "Google Ads", "LinkedIn Ads", "Meta Ads"],
       duration: "Multiple campaigns",
       price: "Price to be confirmed",
       detailPrice: "Pricing not published",
@@ -696,16 +817,41 @@ window.PORTFOLIO_I18N = {
       cardLabel: "Campaigns · Examples",
       lead: "Lead generation, CRM integrations, and performance marketing",
       caseCategory: "Performance marketing · Lead generation",
-      caseSummary: "Designed and developed landing pages for campaigns, events, webinars, and resources. Connected advertising, forms, CRM, and automation into a measurable user journey.",
-      goal: "Connect campaigns, landing pages, forms, and CRM in a measurable user journey.",
-      contributions: ["UX/UI design and landing page development", "WordPress, Elementor, and Unbounce", "CRM integrations and lead management", "HubSpot forms, workflows, and automation", "LinkedIn, Google, and Meta campaigns", "GA4, GTM, tracking, and conversion optimization"],
-      solution: "The work combined landing page UX/UI and development, WordPress, Elementor and Unbounce, CRM integrations and lead management, and HubSpot forms, workflows, and automation.",
-      results: "The case study documents the approach and delivered functionality. Confirmed numerical results are not available for publication."
+      caseSummary: [
+        "Cyntegrity and mindsON Experts organized professional events and educational programs that needed to attract a relevant audience and reach their target attendance.",
+        "The challenge was not simply to build landing pages, but to design an end-to-end promotional process connecting a clear explanation of each event's value, targeted advertising, easy registration, and performance measurement."
+      ],
+      goal: [
+        "Reach the planned number of registrations and fill the events within the defined timelines and marketing budgets.",
+        "The key goal was to develop a simple, effective, and measurable strategy that communicated the value of each event to the right audience, removed barriers to registration, and enabled ongoing campaign monitoring."
+      ],
+      contributions: [
+        "Developed the marketing strategy and event promotion plan",
+        "Defined target audiences, messaging, and advertising channels",
+        "Designed and built conversion-focused landing pages",
+        "Implemented registration forms and connected them to HubSpot CRM",
+        "Set up automated registration confirmations and follow-up communication",
+        "Prepared and managed Google Ads, LinkedIn Ads, and Meta Ads campaigns",
+        "Implemented GA4 and GTM to track registrations and conversions",
+        "Monitored performance and optimized campaigns while they were running"
+      ],
+      solution: [
+        "I began each campaign by defining a specific goal: the required number of registrations, target audience, available budget, and timeframe.",
+        "Based on that, I created a straightforward marketing plan connecting three key elements: the right audience, a clear message, and a simple registration process.",
+        "I built dedicated conversion-focused landing pages, connected registrations to the CRM, and launched targeted digital campaigns.",
+        "Throughout each campaign, I monitored registrations, ad performance, and user behaviour, then adjusted messaging and budget allocation based on the results."
+      ],
+      results: [
+        "The campaigns for Cyntegrity and mindsON Experts reached their planned registration targets and desired attendance for the promoted events.",
+        "Connecting landing pages, digital advertising, and CRM automation established a clear process—from the first interaction with an ad through successful registration and follow-up communication with attendees.",
+        "Ongoing performance monitoring enabled timely campaign optimization and more effective use of the available budgets.",
+        "The project showed that achieving business goals does not require a complex marketing strategy; it takes a well-defined objective, strong execution, and data-informed decisions."
+      ]
     },
     "nk-gavran-laniste": {
       cardCategory: "Sport / Football club",
       industry: "Sport / Community",
-      role: "Club website · digital experience",
+      role: "UX/UI · Website development · Digital communications · SEO",
       technologies: ["GitHub", "Cloudflare Pages"],
       duration: "In development",
       price: "Price to be confirmed",
@@ -715,19 +861,45 @@ window.PORTFOLIO_I18N = {
       cardDescription: "A club website with interactive content and information for players and parents.",
       cardServices: ["Club website design and development", "Information organized by age group", "News and club updates", "Responsive design"],
       cardLabel: "Website visual · to come",
-      lead: "A digital home for the football club",
+      lead: "Website and digital noticeboard for a football club",
       caseCategory: "Sport · Club website",
-      caseSummary: "A website project for a football club, with a focus on clear information for players, parents, and coaches. The structure and content are being developed as a separate project.",
-      goal: "Create a digital home for the football club with useful information for members and coaches.",
-      contributions: ["Website structure and navigation", "Mobile-friendly experience", "Information for age groups", "Space for club updates", "GitHub and Cloudflare workflow"],
-      solution: "The project is in development. Implementation details and final visuals will be added when it is complete.",
-      results: "The project is in development; outcomes have not yet been confirmed."
+      caseSummary: [
+        "NK Gavran Lanište needed a modern website bringing together information about the club, its football school, age groups, and activities in one place.",
+        "A particular challenge was communication with parents and players, who needed easy access to current announcements, schedules, and information relevant to their age group.",
+        "Beyond providing information, the website was intended to help the club attract new members and support sign-ups for its football school."
+      ],
+      goal: [
+        "Create a modern, clear, and easy-to-use website that presents the club professionally and makes communication with parents, players, and coaches easier.",
+        "The key goal was to build a digital noticeboard where each age group could find relevant information, with a clear path for new members to enquire about joining the football school."
+      ],
+      contributions: [
+        "Planned the structure, designed the UX/UI, and developed the club website",
+        "Created a digital noticeboard for announcements and information",
+        "Implemented content views organized by age group",
+        "Structured information about training, coaches, and club activities",
+        "Developed an interactive view of the club's facilities",
+        "Highlighted the football school and simplified the path to joining",
+        "Optimized the website for mobile devices and fast loading",
+        "Set up GitHub and Cloudflare Pages for publishing and maintaining the website"
+      ],
+      solution: [
+        "I began by looking at the needs of the club, coaches, and parents to determine which information should be easiest to find.",
+        "I developed a modern, responsive website with straightforward navigation, a clear presentation of age groups, and prominent information about the football school.",
+        "I gave particular attention to the digital noticeboard, which organizes relevant announcements by selected age group and simplifies day-to-day communication.",
+        "I used GitHub and Cloudflare Pages for development and maintenance, creating a fast, straightforward digital solution with minimal infrastructure costs."
+      ],
+      results: [
+        "The football club website is still in development. The planned platform will provide a digital presence for the club and a central place to communicate with players, parents, and coaches.",
+        "The digital noticeboard and age-group information are intended to make announcements easier to find, while a clearer presentation of the football school will help parents find registration information.",
+        "The website is designed to support future recruitment, but an increase in football-school registrations has not been verified.",
+        "The aim is a functional, accessible platform that connects the club community, simplifies communication, and supports the club's continued development."
+      ]
     },
     "zauvijek-si-tu": {
       cardCategory: "Local services",
       industry: "Local services",
-      role: "Branding · web development",
-      technologies: ["GitHub", "Cloudflare Pages"],
+      role: "Branding · Graphic design · UX/UI · Website development · Meta Ads · SEO",
+      technologies: ["GitHub", "Cloudflare Pages", "Meta Ads"],
       duration: "In development",
       price: "Price to be confirmed",
       detailPrice: "Pricing not published",
@@ -736,13 +908,40 @@ window.PORTFOLIO_I18N = {
       cardDescription: "From the logo and design to a functional website for a local service.",
       cardServices: ["Visual identity and branding", "Website design and development", "Service and package presentation", "Contact and enquiry journey"],
       cardLabel: "Website visual · to come",
-      lead: "Branding and website for gravesite care",
+      lead: "Branding, website, and digital advertising",
       caseCategory: "Local services · Brand & website",
-      caseSummary: "Developed a visual identity and website concept for a gravesite cleaning and care service. The focus is on clear communication, trust, and an easy way to get in touch.",
-      goal: "Create a clear and respectful digital presence for a gravesite cleaning and care service.",
-      contributions: ["Visual identity and logo", "Website structure and UX/UI design", "Responsive website", "Service package presentation", "GitHub and Cloudflare workflow"],
-      solution: "The project is in development. Implementation details and final visuals will be added when it is complete.",
-      results: "The project is in development; outcomes have not yet been confirmed."
+      caseSummary: [
+        "Zauvijek si tu began from scratch with the idea of creating a recognizable brand for gravesite cleaning and care services in Zagreb and the surrounding area.",
+        "The work called for a complete brand identity, from the name and logo to a professional website that clearly explains the services and builds trust with prospective clients.",
+        "A particular challenge was reaching people who live outside Croatia but want to ensure regular care for the graves of their loved ones."
+      ],
+      goal: [
+        "Build a recognizable, professional, and emotionally appropriate brand that communicates trust, care, and dignity.",
+        "The website needed to explain the services and care packages clearly, make it easy to enquire, and reassure clients who cannot care for the gravesites in person.",
+        "Another goal was to reach potential clients in Croatia and abroad through targeted digital advertising."
+      ],
+      contributions: [
+        "Created the brand name and complete visual identity",
+        "Designed the logo and defined the colours, typography, and visual guidelines",
+        "Designed the UX/UI and independently developed the complete website",
+        "Structured the service offering and gravesite care packages",
+        "Implemented contact forms and clear calls to action",
+        "Optimized the website for mobile devices, speed, and SEO",
+        "Set up GitHub and Cloudflare Pages for publishing and maintaining the website",
+        "Developed a Meta Ads strategy for relevant audiences",
+        "Prepared targeted campaigns for people in Croatia and abroad"
+      ],
+      solution: [
+        "I began by understanding the service, its target audience, and the emotions the brand needed to convey. From there, I created a name, logo, and visual identity that bring together simplicity, trust, and dignity.",
+        "I then developed a modern, responsive website with a clear presentation of services, easy-to-understand packages, and a straightforward path to enquire. I paid particular attention to people living abroad who need a reliable way to arrange gravesite care remotely.",
+        "For promotion, I developed a Meta Ads strategy aimed at relevant geographic and audience segments, with the goal of attracting interested clients and increasing enquiries."
+      ],
+      results: [
+        "Starting from an initial idea, the project established a complete brand with a professional visual identity, clear service offering, and functional digital platform.",
+        "The website helps prospective clients learn about care packages and get in touch, whether they are in Croatia or abroad.",
+        "Meta Ads campaigns have been prepared for promotion; their results have not yet been confirmed. The groundwork is in place for targeted client acquisition and long-term business development.",
+        "The result is a digital brand built from the ground up, bringing identity, technology, and marketing strategy together."
+      ]
     }
   }
 };

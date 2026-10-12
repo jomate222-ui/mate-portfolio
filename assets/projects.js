@@ -12,6 +12,7 @@ window.PORTFOLIO_PROJECTS = [
     price: "Unijeti cijenu",
     detailPrice: "Cijena na upit · placeholder",
     categories: ["web", "crm", "seo"],
+    filterCategories: ["web", "design", "automation"],
     companyDescription: "Tvrtka koja razvija softver za upravljanje rizicima i kvalitetom kliničkih ispitivanja.",
     cardServices: [
       "Strategija, UX/UI i redizajn weba",
@@ -67,6 +68,7 @@ window.PORTFOLIO_PROJECTS = [
     price: "Unijeti cijenu",
     detailPrice: "Cijena na upit · placeholder",
     categories: ["web", "ecommerce", "crm"],
+    filterCategories: ["web", "design", "automation"],
     companyDescription: "Digitalna akademija za edukaciju stručnjaka u području RBQM-a.",
     cardServices: [
       "Redizajn weba i korisničkog iskustva",
@@ -109,6 +111,7 @@ window.PORTFOLIO_PROJECTS = [
     price: "Unijeti cijenu",
     detailPrice: "Cijena na upit · placeholder",
     categories: ["web", "portal", "seo"],
+    filterCategories: ["web", "design"],
     companyDescription: "Akademija za edukaciju u području estetske medicine i kozmetologije.",
     cardServices: [
       "UX/UI dizajn i razvoj weba",
@@ -150,6 +153,7 @@ window.PORTFOLIO_PROJECTS = [
     price: "Unijeti cijenu",
     detailPrice: "Cijena na upit · placeholder",
     categories: ["web", "branding", "seo"],
+    filterCategories: ["web", "design", "lead-generation"],
     companyDescription: "Osobni fitness brend s online programima i edukativnim sadržajem.",
     cardServices: [
       "Vizualni identitet i logotip",
@@ -191,6 +195,7 @@ window.PORTFOLIO_PROJECTS = [
     price: "Unijeti cijenu",
     detailPrice: "Cijena na upit · placeholder",
     categories: ["web", "branding", "seo"],
+    filterCategories: ["web", "design"],
     companyDescription: "Tvrtka za upravljanje građevinskim i nekretninskim projektima.",
     cardServices: [
       "Branding i izrada logotipa",
@@ -232,6 +237,7 @@ window.PORTFOLIO_PROJECTS = [
     price: "Unijeti cijenu",
     detailPrice: "Cijena na upit · placeholder",
     categories: ["web", "marketing", "seo"],
+    filterCategories: ["web", "design", "lead-generation"],
     companyDescription: "Međunarodna agencija za prodajni razvoj, appointment setting i lead generation.",
     cardServices: [
       "UX/UI i struktura B2B weba",
@@ -273,6 +279,7 @@ window.PORTFOLIO_PROJECTS = [
     price: "Unijeti cijenu",
     detailPrice: "Cijena na upit · placeholder",
     categories: ["marketing", "crm", "web"],
+    filterCategories: ["web", "advertising", "design", "automation", "lead-generation"],
     companyDescription: "Različiti B2B i B2C projekti usmjereni na prikupljanje i obradu upita.",
     cardServices: [
       "Landing stranice i UX/UI",
@@ -314,6 +321,7 @@ window.PORTFOLIO_PROJECTS = [
     price: "Unijeti cijenu",
     detailPrice: "Cijena na upit · placeholder",
     categories: ["web", "portal"],
+    filterCategories: ["web", "design"],
     companyDescription: "Lokalni nogometni klub s informacijama za igrače, roditelje i trenere.",
     cardServices: [
       "Dizajn i razvoj klupskog weba",
@@ -354,6 +362,7 @@ window.PORTFOLIO_PROJECTS = [
     price: "Unijeti cijenu",
     detailPrice: "Cijena na upit · placeholder",
     categories: ["web", "branding"],
+    filterCategories: ["web", "design"],
     companyDescription: "Brend za čišćenje i održavanje grobnih mjesta.",
     cardServices: [
       "Vizualni identitet i branding",

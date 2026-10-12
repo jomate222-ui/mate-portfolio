@@ -3,6 +3,10 @@
   const content = window.PORTFOLIO_I18N;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let projectCarouselResizeObserver;
+  let tickerResizeObserver;
+  let tickerAnimation = null;
+  let tickerLayoutSignature = "";
+  let selectedProjectCategory = "all";
   if (!Array.isArray(projects) || !content) {
     throw new Error("Portfolio V2 content could not be loaded.");
   }
@@ -32,6 +36,26 @@
   const setText = (selector, value) => {
     const element = document.querySelector(selector);
     if (element) element.textContent = value;
+  };
+
+  const updateContactLanguage = (lang) => {
+    const subject = translate("contactMeetSubject", lang);
+    const message = translate("contactMeetBody", lang);
+    document.querySelectorAll("[data-meet-request]").forEach((link) => {
+      link.href = `mailto:matenikicbiz@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+    });
+    const messageField = document.querySelector("[data-contact-prefill]");
+    if (messageField) {
+      const previousPrefill = messageField.dataset.contactPrefill || translate("contactMessagePrefill", "hr");
+      if (messageField.value === previousPrefill) {
+        messageField.value = translate("contactMessagePrefill", lang);
+      }
+      messageField.dataset.contactPrefill = translate("contactMessagePrefill", lang);
+    }
+    const feedback = document.querySelector("[data-contact-feedback]");
+    if (feedback?.dataset.emailFallback === "true") {
+      feedback.textContent = translate("contactFormFallbackNotice", lang);
+    }
   };
 
   const currentTheme = () => document.documentElement.dataset.theme === "light" ? "light" : "dark";
@@ -72,26 +96,76 @@
     }
   };
 
+  const getTickerProgress = () => {
+    if (!tickerAnimation) return 0;
+    const duration = tickerAnimation.effect?.getTiming().duration;
+    return typeof duration === "number" && duration > 0
+      ? (Number(tickerAnimation.currentTime || 0) % duration) / duration
+      : 0;
+  };
+
+  const configureTicker = (track, ticker, copy, progress = getTickerProgress(), force = false) => {
+    const copyWidth = copy.getBoundingClientRect().width;
+    const signature = `${ticker.clientWidth}:${copyWidth}:${reduceMotion.matches}`;
+    if (!force && signature === tickerLayoutSignature) return;
+    tickerLayoutSignature = signature;
+    tickerAnimation?.cancel();
+    tickerAnimation = null;
+    track.classList.remove("is-css-animated");
+    track.replaceChildren(copy);
+    copy.removeAttribute("aria-hidden");
+
+    if (reduceMotion.matches) return;
+    if (copyWidth <= 0) return;
+    const groupCount = Math.max(2, Math.ceil((ticker.clientWidth + copyWidth) / copyWidth));
+    for (let index = 1; index < groupCount; index += 1) {
+      const duplicate = copy.cloneNode(true);
+      duplicate.removeAttribute("id");
+      duplicate.setAttribute("aria-hidden", "true");
+      track.append(duplicate);
+    }
+
+    track.style.setProperty("--ticker-offset", `-${copyWidth}px`);
+    const duration = copyWidth / 62 * 1000;
+    if (typeof track.animate !== "function") {
+      track.style.setProperty("--ticker-duration", `${duration}ms`);
+      track.style.animationDelay = `-${progress * duration}ms`;
+      track.classList.add("is-css-animated");
+      tickerAnimation = track.getAnimations?.()
+        .find((animation) => animation.animationName === "ticker-scroll") || null;
+      if (tickerAnimation && track.matches(":hover, :focus-within")) tickerAnimation.pause();
+      return;
+    }
+    tickerAnimation = track.animate([
+      { transform: "translate3d(0, 0, 0)" },
+      { transform: `translate3d(-${copyWidth}px, 0, 0)` }
+    ], { duration, iterations: Infinity, easing: "linear" });
+    tickerAnimation.currentTime = progress * duration;
+    if (track.matches(":hover, :focus-within")) tickerAnimation.pause();
+  };
+
   const renderTicker = (lang) => {
     const track = document.querySelector("#ticker-track");
     if (!track) return;
-    const phraseMarkup = translate("tickerPhrases", lang).map((phrase) => `
+    const ticker = track.closest(".ticker");
+    if (!ticker) return;
+    const phrases = translate("tickerPhrases", lang);
+    const phraseMarkup = phrases.map((phrase) => `
       <span class="ticker-separator" aria-hidden="true">✳</span>
-      <span class="ticker-phrase">${escapeHtml(phrase)}</span>`).join("");
-    const copies = track.querySelectorAll(".ticker-copy");
-    copies[0].innerHTML = phraseMarkup;
-    copies[1].innerHTML = phraseMarkup;
-
-    const setSpeed = () => {
-      const copyWidth = copies[0].getBoundingClientRect().width;
-      if (copyWidth > 0) track.style.setProperty("--ticker-duration", `${copyWidth / 80}s`);
-    };
-
-    setSpeed();
+      <span class="ticker-phrase" aria-hidden="true">${escapeHtml(phrase)}</span>`).join("");
+    const progress = getTickerProgress();
+    const copy = track.querySelector(".ticker-copy") || document.createElement("span");
+    copy.className = "ticker-copy";
+    copy.id = "ticker-copy";
+    copy.innerHTML = `<span class="visually-hidden">${escapeHtml(phrases.join(", "))}</span>${phraseMarkup}`;
+    configureTicker(track, ticker, copy, progress, true);
     if ("ResizeObserver" in window) {
       tickerResizeObserver?.disconnect();
-      tickerResizeObserver = new ResizeObserver(setSpeed);
-      tickerResizeObserver.observe(copies[0]);
+      tickerResizeObserver = new ResizeObserver(() => {
+        configureTicker(track, ticker, copy);
+      });
+      tickerResizeObserver.observe(ticker);
+      tickerResizeObserver.observe(copy);
     }
   };
 
@@ -108,6 +182,12 @@
     });
     document.querySelectorAll("[data-v2-aria-label]").forEach((element) => {
       element.setAttribute("aria-label", translate(`v2${element.dataset.v2AriaLabel[0].toUpperCase()}${element.dataset.v2AriaLabel.slice(1)}`, lang));
+    });
+    document.querySelectorAll("[data-i18n-aria-label]").forEach((element) => {
+      element.setAttribute("aria-label", translate(element.dataset.i18nAriaLabel, lang));
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
+      element.setAttribute("placeholder", translate(element.dataset.i18nPlaceholder, lang));
     });
     document.querySelectorAll("[data-i18n]").forEach((element) => {
       element.textContent = translate(element.dataset.i18n, lang);
@@ -148,6 +228,7 @@
     const menu = document.querySelector("#menu-toggle");
     menu?.setAttribute("aria-label", translate("menu", lang));
     document.querySelector(".brand")?.setAttribute("aria-label", translate("logoLabel", lang));
+    updateContactLanguage(lang);
     renderTicker(lang);
     setText("#year", String(new Date().getFullYear()));
   };
@@ -155,7 +236,15 @@
   const renderProjects = (lang) => {
     const grid = document.querySelector("#projects");
     if (!grid) return;
-    grid.innerHTML = projects.map((sourceProject, index) => {
+    const visibleProjects = selectedProjectCategory === "all"
+      ? projects
+      : projects.filter((project) => project.filterCategories?.includes(selectedProjectCategory));
+    if (!visibleProjects.length) {
+      grid.innerHTML = `<p class="project-empty">${escapeHtml(translate("noProjectsInCategory", lang))}</p>`;
+      return;
+    }
+    grid.innerHTML = visibleProjects.map((sourceProject) => {
+      const index = projects.indexOf(sourceProject);
       const project = localizedProject(sourceProject, lang);
       const revealDelay = Math.min(index * 65, 390);
       const cardImage = project.cardImage || project.screenshot;
@@ -176,6 +265,35 @@
       </article>`;
     }).join("");
     window.observePortfolioReveals?.(grid);
+  };
+
+  const renderProjectFilters = (lang) => {
+    const filters = document.querySelector("#project-filters");
+    if (!filters) return;
+    filters.setAttribute("aria-label", translate("filterGroup", lang));
+    const categories = [
+      ["all", "projectFilterAll"],
+      ["web", "projectFilterWeb"],
+      ["advertising", "projectFilterAdvertising"],
+      ["design", "projectFilterDesign"],
+      ["automation", "projectFilterAutomation"],
+      ["lead-generation", "projectFilterLeadGeneration"]
+    ];
+    filters.innerHTML = categories.map(([category, key]) => {
+      const active = category === selectedProjectCategory;
+      return `<button class="project-filter${active ? " is-active" : ""}" type="button" data-project-filter="${category}" aria-pressed="${active}">${escapeHtml(translate(key, lang))}</button>`;
+    }).join("");
+    filters.querySelectorAll("[data-project-filter]").forEach((button) => {
+      button.addEventListener("click", () => {
+        selectedProjectCategory = button.dataset.projectFilter;
+        filters.querySelectorAll("[data-project-filter]").forEach((filter) => {
+          const active = filter.dataset.projectFilter === selectedProjectCategory;
+          filter.classList.toggle("is-active", active);
+          filter.setAttribute("aria-pressed", String(active));
+        });
+        renderProjects(language());
+      });
+    });
   };
 
   const renderExpertise = (lang) => {
@@ -238,7 +356,6 @@
     setMeta('link[rel="canonical"]', "href", canonical.href);
   };
 
-  let tickerResizeObserver;
   let revealObserver;
   if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     revealObserver = new IntersectionObserver((entries, observer) => {
@@ -575,6 +692,7 @@
     const selectedLanguage = language();
     updateCommonContent(selectedLanguage);
     if (document.querySelector("#projects")) {
+      renderProjectFilters(selectedLanguage);
       renderProjects(selectedLanguage);
       renderExpertise(selectedLanguage);
       renderTimeline(selectedLanguage);
@@ -587,6 +705,86 @@
   };
 
   window.renderPortfolioLanguage = (lang) => render(lang);
+
+  const initializeContactDialog = () => {
+    const dialog = document.querySelector("#contact-dialog");
+    const form = dialog?.querySelector("[data-contact-form]");
+    if (!dialog || !form || typeof dialog.showModal !== "function") return;
+    const closeButton = dialog.querySelector("[data-contact-dialog-close]");
+    const feedback = dialog.querySelector("[data-contact-feedback]");
+    const messageField = dialog.querySelector("[data-contact-prefill]");
+    const focusableSelector = 'a[href], button:not(:disabled), input:not(:disabled), textarea:not(:disabled), select:not(:disabled), [tabindex]:not([tabindex="-1"])';
+    let trigger = null;
+    let previousBodyOverflow = "";
+
+    const openDialog = (event) => {
+      event.preventDefault();
+      if (dialog.open) return;
+      trigger = event.currentTarget;
+      previousBodyOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      form.reset();
+      if (messageField) {
+        messageField.value = translate("contactMessagePrefill");
+        messageField.dataset.contactPrefill = messageField.value;
+      }
+      if (feedback) {
+        feedback.textContent = "";
+        delete feedback.dataset.emailFallback;
+      }
+      dialog.showModal();
+      dialog.querySelector("#contact-name")?.focus();
+    };
+
+    document.querySelectorAll("[data-contact-dialog-open]").forEach((button) => {
+      button.addEventListener("click", openDialog);
+    });
+    closeButton?.addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    dialog.addEventListener("close", () => {
+      document.body.style.overflow = previousBodyOverflow;
+      trigger?.focus({ preventScroll: true });
+      trigger = null;
+    });
+    dialog.addEventListener("keydown", (event) => {
+      if (event.key !== "Tab") return;
+      const focusable = [...dialog.querySelectorAll(focusableSelector)]
+        .filter((element) => element.getClientRects().length > 0);
+      if (!focusable.length) {
+        event.preventDefault();
+        dialog.focus();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const values = new FormData(form);
+      const subject = translate("contactFormSubject");
+      const body = [
+        `${translate("contactNameLabel")}: ${values.get("name")}`,
+        `${translate("contactEmailLabel")}: ${values.get("email")}`,
+        "",
+        values.get("message")
+      ].join("\n");
+      if (feedback) {
+        feedback.textContent = translate("contactFormFallbackNotice");
+        feedback.dataset.emailFallback = "true";
+      }
+      window.location.href = `mailto:matenikicbiz@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+  };
 
   document.querySelectorAll(".language-switch [data-language]").forEach((button) => {
     button.addEventListener("click", () => window.setPortfolioLanguage(button.dataset.language));
@@ -698,4 +896,27 @@
   document.documentElement.classList.add("js");
   window.renderPortfolioLanguage(window.getPortfolioLanguage());
   updateThemeControls();
+  initializeContactDialog();
+
+  const tickerTrack = document.querySelector("#ticker-track");
+  if (tickerTrack) {
+    const pauseTicker = () => tickerAnimation?.pause();
+    const resumeTicker = () => {
+      if (!tickerTrack.matches(":hover, :focus-within") && !reduceMotion.matches) tickerAnimation?.play();
+    };
+    tickerTrack.addEventListener("pointerenter", pauseTicker);
+    tickerTrack.addEventListener("pointerleave", resumeTicker);
+    tickerTrack.addEventListener("focusin", pauseTicker);
+    tickerTrack.addEventListener("focusout", resumeTicker);
+    const reconfigureTicker = () => {
+      const copy = tickerTrack.querySelector(".ticker-copy");
+      const ticker = tickerTrack.closest(".ticker");
+      if (copy && ticker) configureTicker(tickerTrack, ticker, copy);
+    };
+    if (!("ResizeObserver" in window)) window.addEventListener("resize", reconfigureTicker);
+    const updateTickerMotion = () => renderTicker(language());
+    if (reduceMotion.addEventListener) reduceMotion.addEventListener("change", updateTickerMotion);
+    else reduceMotion.addListener?.(updateTickerMotion);
+    document.fonts?.ready.then(reconfigureTicker);
+  }
 })();

@@ -17,6 +17,10 @@
     ...project,
     ...(language === "en" ? translations.projects[project.id] : {})
   });
+  const projectText = (value) => Array.isArray(value) ? value.join(" ") : String(value ?? "");
+  const renderParagraphs = (value, className = "") => (Array.isArray(value) ? value : value ? [value] : [])
+    .map((paragraph) => `<p${className ? ` class="${className}"` : ""}>${escapeHtml(paragraph)}</p>`)
+    .join("");
   const categories = {
     web: "filterWeb",
     branding: "filterBranding",
@@ -27,9 +31,9 @@
     seo: "filterSeo"
   };
 
-  const screenshotMarkup = (project, language, sourcePrefix = "", className = "case-visual", includeCardLabel = false) => {
+  const projectVisualMarkup = (project, language, sourcePrefix = "", className = "case-visual", includeCardLabel = false) => {
     const ui = translations.ui[language];
-    const alt = language === "hr" ? project.screenshotAltHr || project.screenshotAlt : project.screenshotAlt;
+    const alt = language === "hr" ? project.cardImageAltHr || project.cardImageAlt : project.cardImageAlt;
     const labels = project.comparison
       ? `<div class="comparison-labels" aria-label="${escapeHtml(ui.before)} / ${escapeHtml(ui.after)}"><span>${escapeHtml(ui.before)}</span><span>${escapeHtml(ui.after)}</span></div>`
       : "";
@@ -37,11 +41,8 @@
       ? `<span class="visual-label">${escapeHtml(project.cardLabel)}</span>`
       : "";
 
-    if (!project.screenshot) {
-      return `<div class="${className} missing-visual" role="img" aria-label="${escapeHtml(alt)}"><div class="screenshot-placeholder">${escapeHtml(project.placeholder)}</div>${cardLabel}${labels}</div>`;
-    }
-
-    return `<div class="${className}"><img alt="${escapeHtml(alt)}" loading="lazy" src="${sourcePrefix}${escapeHtml(project.screenshot)}">${cardLabel}${labels}</div>`;
+    if (!project.cardImage) return "";
+    return `<div class="${className}"><img alt="${escapeHtml(alt || project.name)}" loading="lazy" src="${sourcePrefix}${escapeHtml(project.cardImage)}">${cardLabel}${labels}</div>`;
   };
 
   const createCard = (sourceProject, language) => {
@@ -52,7 +53,7 @@
       : `<span class="case-action case-action-secondary">${escapeHtml(t("comingSoon", language))}</span>`;
 
     return `<article class="project reveal" data-categories="${project.categories.map(escapeHtml).join(" ")}" data-industry="${escapeHtml(project.industry)}" data-name="${escapeHtml(project.name.toLocaleLowerCase(language))}">
-      ${screenshotMarkup(project, language, "", "case-visual", true)}
+      ${projectVisualMarkup(project, language, "", "case-visual", true)}
       <div class="case-content">
         <h3>${escapeHtml(project.name)}</h3>
         <p class="case-description">${escapeHtml(project.companyDescription)}</p>
@@ -141,9 +142,15 @@
     const liveAction = project.liveUrl
       ? `<a class="btn primary" href="${escapeHtml(project.liveUrl)}" rel="noopener noreferrer" target="_blank">${escapeHtml(t("caseVisit", language))}</a>`
       : "";
-    const image = project.screenshot
-      ? screenshotMarkup(project, language, "../../", "case-image reveal")
-      : `<div class="case-image reveal missing-visual"><div class="screenshot-placeholder">${escapeHtml(project.name)}</div><span>${escapeHtml(t("casePlaceholder", language))}</span></div>`;
+    const galleryImages = project.galleryImages?.length
+      ? project.galleryImages
+      : project.cardImage ? [{ src: project.cardImage, alt: { hr: project.cardImageAltHr, en: project.cardImageAlt } }] : [];
+    const image = galleryImages.length
+      ? `<div class="case-image reveal">${galleryImages.map((galleryImage) => {
+        const alt = galleryImage.alt?.[language] || project.name;
+        return `<img alt="${escapeHtml(alt)}" loading="lazy" src="../../${escapeHtml(galleryImage.src)}">`;
+      }).join("")}</div>`
+      : "";
 
     caseStudy.innerHTML = `<section class="detail-hero">
       <a class="back" href="../../index.html#work">${escapeHtml(t("caseBack", language))}</a>
@@ -161,19 +168,19 @@
       <p class="detail-price-note">${escapeHtml(t("priceNote", language))}</p>
     </section>
     ${image}
-    <div class="case-visual-caption">${escapeHtml(t("caseCaption", language))}</div>
+    ${image ? `<div class="case-visual-caption">${escapeHtml(t("caseCaption", language))}</div>` : ""}
     <section class="case-template">
-      <div class="case-section reveal"><div class="case-index">${escapeHtml(t("sectionContext", language))}</div><div><h2>${escapeHtml(t("contextTitle", language))}</h2><p class="case-summary">${escapeHtml(project.caseSummary)}</p></div></div>
-      <div class="case-section reveal"><div class="case-index">${escapeHtml(t("sectionGoal", language))}</div><div><h2>${escapeHtml(t("goalTitle", language))}</h2><p class="case-goal">${escapeHtml(project.goal)}</p></div></div>
-      <div class="case-section reveal"><div class="case-index">${escapeHtml(t("sectionContribution", language))}</div><div><h2>${escapeHtml(t("contributionTitle", language))}</h2><ul class="checks case-contributions">${project.contributions.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div></div>
-      <div class="case-section reveal"><div class="case-index">${escapeHtml(t("sectionSolution", language))}</div><div><h2>${escapeHtml(t("solutionTitle", language))}</h2><p class="case-delivery">${escapeHtml(project.solution)}</p></div></div>
-      <div class="case-section reveal"><div class="case-index">${escapeHtml(t("sectionResults", language))}</div><div><h2>${escapeHtml(t("resultsTitle", language))}</h2><p class="case-results">${escapeHtml(project.results || t("unverifiedResults", language))}</p></div></div>
+      <div class="case-section reveal"><div class="case-index">${escapeHtml(t("sectionContext", language))}</div><div><h2>${escapeHtml(t("contextTitle", language))}</h2>${renderParagraphs(project.caseSummary, "case-summary")}</div></div>
+      <div class="case-section reveal"><div class="case-index">${escapeHtml(t("sectionGoal", language))}</div><div><h2>${escapeHtml(t("goalTitle", language))}</h2>${renderParagraphs(project.goal, "case-goal")}</div></div>
+      <div class="case-section reveal"><div class="case-index">${escapeHtml(t("sectionContribution", language))}</div><div><h2>${escapeHtml(t("contributionTitle", language))}</h2>${renderParagraphs(project.contributionsIntro)}<ul class="checks case-contributions">${project.contributions.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div></div>
+      <div class="case-section reveal"><div class="case-index">${escapeHtml(t("sectionSolution", language))}</div><div><h2>${escapeHtml(t("solutionTitle", language))}</h2>${renderParagraphs(project.solution, "case-delivery")}</div></div>
+      <div class="case-section reveal"><div class="case-index">${escapeHtml(t("sectionResults", language))}</div><div><h2>${escapeHtml(t("resultsTitle", language))}</h2>${renderParagraphs(project.results || t("unverifiedResults", language), "case-results")}</div></div>
     </section>
     <section class="section"><a class="back" href="../../index.html#work">${escapeHtml(t("caseBack", language))}</a></section>`;
 
     document.title = `${project.name} — ${language === "en" ? "Case Study" : "Studija slučaja"} | Mate Nikić`;
     const description = document.querySelector('meta[name="description"]');
-    if (description) description.content = project.caseSummary;
+    if (description) description.content = projectText(project.caseSummary);
   };
 
   window.renderPortfolioLanguage = (language) => {

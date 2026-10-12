@@ -27,35 +27,77 @@ window.PORTFOLIO_PROJECTS = [
     cardImage: "assets/Software%20Website.png",
     cardImageAlt: "Cyntegrity corporate website homepage displayed on a laptop",
     cardImageAltHr: "Naslovna stranica korporativnog weba Cyntegrity prikazana na prijenosnom računalu",
-    screenshot: "assets/screenshot-cyntegrity.webp",
-    screenshotAlt: "Cyntegrity corporate website screenshots showing the old and redesigned desktop and mobile websites",
-    screenshotAltHr: "Stara i redizajnirana web stranica Cyntegrity na zaslonima računala i mobitela",
     galleryImages: [
       {
-        src: "assets/Software%20Website.png",
+        src: "assets/Old vs New Cyntegrity.png",
+        width: 1983,
+        height: 793,
+        alt: {
+          hr: "Usporedba stare i nove korporativne web stranice Cyntegrity",
+          en: "Comparison of Cyntegrity's old and redesigned corporate website"
+        }
+      },
+      {
+        src: "assets/Software Website.png",
         width: 1536,
         height: 1024,
         alt: {
           hr: "Naslovna stranica korporativnog weba Cyntegrity prikazana na prijenosnom računalu",
           en: "Cyntegrity corporate website homepage displayed on a laptop"
         }
+      },
+      {
+        src: "assets/Modern Laptop with Blue Corporate UI (1).png",
+        width: 1536,
+        height: 1024,
+        alt: {
+          hr: "Korporativno korisničko sučelje Cyntegrity prikazano na prijenosnom računalu",
+          en: "Cyntegrity corporate interface displayed on a laptop"
+        }
+      },
+      {
+        src: "assets/Fit-for-Purpose Analytics Laptop Mockup (1).png",
+        width: 1536,
+        height: 1024,
+        alt: {
+          hr: "Cyntegrity analitika prilagođena namjeni prikazana na prijenosnom računalu",
+          en: "Cyntegrity fit-for-purpose analytics displayed on a laptop"
+        }
       }
     ],
     liveUrl: "https://cyntegrity.com/",
     caseUrl: "projects/cyntegrity/",
-    lead: "Redizajn i izrada korporativne web stranice",
-    caseSummary: "Redizajn i razvoj korporativne web stranice za tehnološku tvrtku specijaliziranu za upravljanje kvalitetom i rizicima u kliničkim ispitivanjima. Cilj je bio modernizirati digitalni nastup, unaprijediti korisničko iskustvo i povezati web s marketinškim i prodajnim procesima.",
-    goal: "Modernizirati digitalni nastup, unaprijediti korisničko iskustvo i povezati web s marketinškim i prodajnim procesima.",
-    contributions: [
-      "Strategija i struktura weba",
-      "UX/UI dizajn i implementacija",
-      "WordPress + Elementor Pro (80+ stranica i postova)",
-      "Mega menu i HubSpot integracija",
-      "Obrasci, popupovi i automatizacija",
-      "SEO, analitika i performanse"
+    lead: "Redizajn i razvoj korporativnog weba",
+    caseSummary: [
+      "Cyntegrity je softverska kompanija čija rješenja koriste organizacije u industriji kliničkih ispitivanja.",
+      "Analitika je pokazivala slab promet, SEO vidljivost bila je ograničena, a zastarjeli dizajn i struktura sadržaja otežavali su predstavljanje kompleksnih softverskih rješenja. Za kompaniju čiji klijenti ulažu značajna sredstva u tehnologiju, prvi digitalni dojam jednostavno nije bio na odgovarajućoj razini.",
+      "Projekt je krenuo s jasnom idejom: izgraditi web stranicu koja će napokon izgledom, sadržajem i funkcionalnošću odgovarati kvaliteti proizvoda koji stoji iza nje."
     ],
-    solution: "Projekt obuhvaća sljedeće komponente: Strategija i struktura weba, UX/UI dizajn i implementacija, WordPress + Elementor Pro (80+ stranica i postova), Mega menu i HubSpot integracija.",
-    results: "Projekt pokazuje pristup i isporučene funkcionalnosti. Konkretne brojke dodat ću kada budu potvrđene."
+    goal: [
+      "Cilj nije bio samo napraviti vizualno privlačniju stranicu. Trebalo je izgraditi pouzdanu, brzu i preglednu digitalnu platformu koja će posjetiteljima omogućiti da jednostavno razumiju Cyntegrityjeva rješenja, istraže njihove mogućnosti i stupe u kontakt s kompanijom.",
+      "Poseban naglasak bio je na modernom dizajnu, intuitivnoj navigaciji, tehničkoj stabilnosti, SEO optimizaciji te povezivanju s HubSpot CRM-om i postojećim marketinškim procesima."
+    ],
+    contributionsIntro: "Preuzeo sam projekt od početne analize i planiranja do dizajna, razvoja i završne implementacije web stranice s više od 90 stranica.",
+    contributions: [
+      "Osmislio sam informacijsku arhitekturu, strukturu sekcija i korisničke putanje.",
+      "Planirao i oblikovao sadržaj kako bi kompleksna softverska rješenja bila razumljivija.",
+      "Dizajnirao UX/UI i samostalno izgradio web u WordPressu koristeći Elementor Pro.",
+      "Razvio navigaciju i mega menu za pregledan pristup različitim proizvodima, funkcionalnostima i resursima.",
+      "Implementirao obrasce, popupove, CTA elemente i integracije s HubSpot CRM-om.",
+      "Povezao marketinške automatizacije i procese prikupljanja potencijalnih klijenata.",
+      "Radio na tehničkom SEO-u, strukturi sadržaja, analitici, performansama i ispravljanju pogrešaka.",
+      "Testirao funkcionalnosti, responzivnost i korisničko iskustvo prije objave."
+    ],
+    solution: [
+      "Prije početka dizajna analizirao sam web stranice različitih softverskih i tehnoloških kompanija kako bih razumio suvremene pristupe predstavljanju složenih digitalnih proizvoda.",
+      "Nisam želio da novi web bude samo lijepa naslovnica s nekoliko generičkih opisa. Cilj mi je bio omogućiti posjetitelju da samostalno istražuje — od općeg pregleda rješenja do detaljnih funkcionalnosti, primjena, edukacijskih sadržaja i konkretnih poslovnih koristi.",
+      "Zato sam veliku pažnju posvetio navigaciji, logičnom povezivanju sadržaja i jasnim korisničkim putanjama. Paralelno sam razmišljao o tome kako će web funkcionirati kao dio šireg marketinškog sustava, a ne samo kao zasebna stranica."
+    ],
+    results: [
+      "Šest mjeseci nakon izrade, web je bilježio više od 3.000 posjetitelja mjesečno i približno 15 novih upita putem kontaktnih obrazaca svakog mjeseca.",
+      "U istom razdoblju kompanija je ostvarila i tri nova klijenta. Njihovo pridobivanje ne može se pripisati isključivo novoj web stranici, ali vjerujem da je kvalitetniji digitalni nastup imao važnu ulogu u stvaranju povjerenja i predstavljanju kompanije kao ozbiljnog tehnološkog partnera.",
+      "Za mene je najveći rezultat upravo to što je web od zastarjele prezentacije postao moderna platforma koja bolje podržava marketing, prodaju i komunikaciju s potencijalnim klijentima."
+    ]
   },
   {
     id: "myrbqm-academy",
@@ -85,9 +127,6 @@ window.PORTFOLIO_PROJECTS = [
     ],
     cardLabel: "Redizajn · Prije / Poslije",
     comparison: true,
-    screenshot: "assets/screenshot-myrbqm-academy.webp",
-    screenshotAlt: "MyRBQM Academy website screenshots showing the old and redesigned desktop and mobile websites",
-    screenshotAltHr: "Stara i redizajnirana web stranica MyRBQM Academy na zaslonima računala i mobitela",
     galleryImages: [],
     liveUrl: "https://academy.cyntegrity.com/",
     caseUrl: "projects/myrbqm-academy/",
@@ -132,9 +171,6 @@ window.PORTFOLIO_PROJECTS = [
       "HR/EN verzije, SEO i analitika"
     ],
     cardLabel: "Web · Studentski portal",
-    screenshot: "assets/screenshot-splitska-estetska-akademija.webp",
-    screenshotAlt: "Splitska estetska akademija website shown in desktop and mobile screenshots",
-    screenshotAltHr: "Web stranica Splitske estetske akademije prikazana na zaslonima računala i mobitela",
     galleryImages: [],
     liveUrl: "https://splitska-estetska-akademija.com/",
     caseUrl: "projects/splitska-estetska-akademija/",
@@ -179,9 +215,6 @@ window.PORTFOLIO_PROJECTS = [
       "Blog, SEO i višejezičnost"
     ],
     cardLabel: "Branding · Web",
-    screenshot: "assets/screenshot-mihaela-petrovic.webp",
-    screenshotAlt: "Mihaela Petrović Fitness website shown in desktop and mobile screenshots",
-    screenshotAltHr: "Web stranica Mihaele Petrović Fitness prikazana na zaslonima računala i mobitela",
     galleryImages: [],
     liveUrl: "https://mihaelapetrovic.com/",
     caseUrl: "projects/mihaela-petrovic/",
@@ -228,9 +261,6 @@ window.PORTFOLIO_PROJECTS = [
       "Višejezičnost i SEO"
     ],
     cardLabel: "Dva web projekta",
-    screenshot: "assets/screenshot-promat-projekti.webp",
-    screenshotAlt: "Promat Projekti and Vir Oasis Estate websites shown in desktop and mobile screenshots",
-    screenshotAltHr: "Web stranice Promat Projekti i Vir Oasis Estate prikazane na zaslonima računala i mobitela",
     galleryImages: [],
     liveUrl: "https://promatprojekti.com/hr/",
     caseUrl: "projects/promat-projekti/",
@@ -275,9 +305,6 @@ window.PORTFOLIO_PROJECTS = [
       "Mobilna i tehnička optimizacija"
     ],
     cardLabel: "B2B Web",
-    screenshot: "assets/screenshot-skybox-sales.webp",
-    screenshotAlt: "Skybox Sales website shown in desktop and mobile screenshots",
-    screenshotAltHr: "Web stranica Skybox Sales prikazana na zaslonima računala i mobitela",
     galleryImages: [],
     liveUrl: "https://skybox-sales.com/",
     caseUrl: "projects/skybox-sales/",
@@ -324,9 +351,6 @@ window.PORTFOLIO_PROJECTS = [
       "GA4, GTM i conversion tracking"
     ],
     cardLabel: "Kampanje · Primjeri",
-    screenshot: "assets/screenshot-landing-pages.webp",
-    screenshotAlt: "Screenshots of campaign landing pages and connected lead-generation flows",
-    screenshotAltHr: "Primjeri odredišnih stranica kampanja i povezanih tokova za prikupljanje upita",
     galleryImages: [],
     liveUrl: null,
     caseUrl: "projects/landing-pages/",
@@ -371,10 +395,7 @@ window.PORTFOLIO_PROJECTS = [
       "Responsive dizajn"
     ],
     cardLabel: "Vizual weba · Dodati",
-    screenshot: null,
-    screenshotAlt: "Screenshot nije dostupan: NK Gavran Lanište website",
     galleryImages: [],
-    placeholder: "OVDJE DOLAZI SCREENSHOT WEBA",
     liveUrl: null,
     caseUrl: "projects/nk-gavran-laniste/",
     lead: "Digitalna prezentacija nogometnog kluba",
@@ -417,10 +438,7 @@ window.PORTFOLIO_PROJECTS = [
       "Kontaktni i upitni proces"
     ],
     cardLabel: "Vizual weba · Dodati",
-    screenshot: null,
-    screenshotAlt: "Screenshot nije dostupan: Zauvijek si tu website",
     galleryImages: [],
-    placeholder: "OVDJE DOLAZI SCREENSHOT WEBA",
     liveUrl: null,
     caseUrl: "projects/zauvijek-si-tu/",
     lead: "Branding i web za održavanje grobnih mjesta",

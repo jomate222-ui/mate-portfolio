@@ -18,16 +18,16 @@ Open <http://localhost:8000>. Use `Ctrl+C` to stop the server. Case studies use 
 - `case-study.html` is the shared, URL-addressable case-study page.
 - `assets/v2.css` contains the V2 black/orange design system, responsive layouts, and timeline styling.
 - `assets/v2.js` renders project cards, expertise, the translated timeline, case-study details, the marquee, theme preference, and logo interaction.
-- `assets/projects.js` is the source for project names, Croatian descriptions, imagery, links, technologies, and case-study details. Each project has a `galleryImages` array for extra case-study slides; the existing `screenshot` remains the first slide.
+- `assets/projects.js` is the source for project names, Croatian descriptions, imagery, links, technologies, and case-study details. Each project's `galleryImages` array contains its approved case-study slides; an empty array hides the gallery. `cardImage` is the shared homepage and related-project cover.
 - `assets/i18n.js` contains English project translations, Croatian/English interface copy, marquee phrases, and bilingual career milestones.
-- `assets/screenshot-*.webp` are the existing project visuals used by the cards and case studies. Projects without a confirmed visual display an explicit placeholder instead. Cyntegrity's homepage card has a separate `cardImage` (`assets/Software Website.png`); its case-study screenshot is unchanged.
+- Homepage and related-project cards use each project's current `cardImage`. Case-study galleries include only approved entries in `galleryImages`.
 - `assets/mate-portrait.png` is used for the hero and About portrait.
 
 The theme toggle stores an explicit preference as `mate-portfolio-theme` in local storage. Without a saved choice, the site follows the system color scheme and responds to system changes. Update the bilingual marquee phrases and labels in `assets/i18n.js`. The header logo animation and theme/ticker styling use the shared JavaScript and CSS on both page types.
 
 ### Adding case-study gallery images
 
-In `assets/projects.js`, add each approved screenshot to that project's `galleryImages` array. The current `screenshot` is always shown first; gallery items are appended after it. Keep `screenshot` unchanged if you only want to add detail-page slides:
+In `assets/projects.js`, add each approved image to that project's `galleryImages` array. Images are displayed in the order listed:
 
 ```js
 galleryImages: [
@@ -57,6 +57,6 @@ Portfolio V2 work is on the `portfolio-v2` branch. The production `main` branch 
 
 - Confirm the real email address and LinkedIn profile URL.
 - Confirm career dates and employer names; only details present in the source timeline are currently shown.
-- Add approved screenshots for the two projects that do not yet have them.
+- Add approved case-study gallery images for NK Gavran Lanište and Zauvijek si tu when available.
 - Review project responsibilities and any future outcome copy with verified facts.
 - Check desktop, tablet, and mobile rendering in a browser, including both themes, keyboard controls, reduced motion, and timeline progress before publishing.

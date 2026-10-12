@@ -24,6 +24,10 @@
     ...project,
     ...(lang === "en" ? content.projects[project.id] : {})
   });
+  const projectText = (value) => Array.isArray(value) ? value.join(" ") : String(value ?? "");
+  const renderParagraphs = (value) => (Array.isArray(value) ? value : value ? [value] : [])
+    .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
+    .join("");
   const caseUrl = (project, lang = language()) =>
     `case-study.html?id=${encodeURIComponent(project.id)}&lang=${lang}`;
 
@@ -247,15 +251,13 @@
       const index = projects.indexOf(sourceProject);
       const project = localizedProject(sourceProject, lang);
       const revealDelay = Math.min(index * 65, 390);
-      const cardImage = project.cardImage || project.screenshot;
-      const imageAlt = project.cardImage
-        ? lang === "hr" ? project.cardImageAltHr || project.cardImageAlt : project.cardImageAlt
-        : lang === "hr" ? project.screenshotAltHr || project.screenshotAlt : project.screenshotAlt;
+      const cardImage = project.cardImage;
+      const imageAlt = lang === "hr" ? project.cardImageAltHr || project.cardImageAlt : project.cardImageAlt;
       const image = cardImage
-        ? `<img src="${escapeHtml(cardImage)}" alt="${escapeHtml(imageAlt)}" width="${project.cardImageWidth || (project.cardImage ? 1536 : 2160)}" height="${project.cardImageHeight || (project.cardImage ? 1024 : 1215)}" loading="lazy" decoding="async">`
-        : `<div class="image-fallback" role="img" aria-label="${escapeHtml(project.screenshotAlt)}">${escapeHtml(project.placeholder || translate("casePlaceholderAlt", lang))}</div>`;
+        ? `<a class="project-image project-image-contain" href="${caseUrl(project, lang)}" aria-label="${escapeHtml(`${translate("moreProject", lang)}: ${project.name}`)}"><img src="${escapeHtml(cardImage)}" alt="${escapeHtml(imageAlt || project.name)}" width="${project.cardImageWidth || 1536}" height="${project.cardImageHeight || 1024}" loading="lazy" decoding="async"></a>`
+        : "";
       return `<article class="project reveal" style="--reveal-delay: ${revealDelay}ms">
-        <a class="project-image${project.cardImage ? " project-image-contain" : ""}" href="${caseUrl(project, lang)}" aria-label="${escapeHtml(`${translate("moreProject", lang)}: ${project.name}`)}">${image}</a>
+        ${image}
         <div class="project-body">
           <div class="project-kicker">${escapeHtml(project.name)}</div>
           <h3><a href="${caseUrl(project, lang)}">${escapeHtml(project.cardTitle)}</a></h3>
@@ -431,31 +433,17 @@
   };
 
   const getGallerySlides = (project, lang) => {
-    const slides = [];
-    if (project.screenshot) {
-      slides.push({
-        src: project.screenshot,
-        alt: lang === "hr" ? project.screenshotAltHr || project.screenshotAlt : project.screenshotAlt
-      });
-    }
-    (project.galleryImages || []).forEach((image) => {
-      slides.push({
+    return (project.galleryImages || []).map((image) => ({
         src: image.src,
         width: image.width || 2160,
         height: image.height || 1215,
         alt: image.alt?.[lang] || image.alt?.hr || project.name
-      });
-    });
-    return slides;
+      }));
   };
 
   const renderCaseGallery = (project, lang) => {
     const slides = getGallerySlides(project, lang);
-    if (!slides.length) {
-      return `<figure class="case-visual">
-        <div class="image-fallback" role="img" aria-label="${escapeHtml(translate("casePlaceholderAlt", lang))}">${escapeHtml(project.placeholder || translate("casePlaceholderAlt", lang))}</div>
-      </figure>`;
-    }
+    if (!slides.length) return "";
 
     const images = slides.map((slide, index) => `
       <img src="${escapeHtml(slide.src)}" alt="${escapeHtml(slide.alt)}" width="${slide.width || 2160}" height="${slide.height || 1215}" ${index ? 'loading="lazy"' : 'fetchpriority="high"'} decoding="async" aria-hidden="${index !== 0}"${index ? " hidden" : ""}>`).join("");
@@ -485,14 +473,14 @@
     const relatedProjects = projects.filter((project) => project !== currentProject);
     const cards = relatedProjects.map((sourceProject) => {
       const project = localizedProject(sourceProject, lang);
-      const imageSource = project.screenshot;
-      const imageAlt = lang === "hr" ? project.screenshotAltHr || project.screenshotAlt : project.screenshotAlt;
+      const imageSource = project.cardImage;
+      const imageAlt = lang === "hr" ? project.cardImageAltHr || project.cardImageAlt : project.cardImageAlt;
       const image = imageSource
-        ? `<img src="${escapeHtml(imageSource)}" alt="${escapeHtml(imageAlt)}" width="2160" height="1215" loading="lazy" decoding="async">`
-        : `<div class="image-fallback" role="img" aria-label="${escapeHtml(project.screenshotAlt)}">${escapeHtml(project.placeholder || translate("casePlaceholderAlt", lang))}</div>`;
+        ? `<a class="project-image project-image-contain" href="${caseUrl(project, lang)}" aria-label="${escapeHtml(`${translate("moreProject", lang)}: ${project.name}`)}"><img src="${escapeHtml(imageSource)}" alt="${escapeHtml(imageAlt || project.name)}" width="${project.cardImageWidth || 1536}" height="${project.cardImageHeight || 1024}" loading="lazy" decoding="async"></a>`
+        : "";
       const href = caseUrl(project, lang);
       return `<article class="project related-project-card">
-        <a class="project-image" href="${href}" aria-label="${escapeHtml(`${translate("moreProject", lang)}: ${project.name}`)}">${image}</a>
+        ${image}
         <div class="project-body">
           <div class="project-kicker">${escapeHtml(project.cardCategory)}</div>
           <h3><a href="${href}">${escapeHtml(project.name)}</a></h3>
@@ -662,16 +650,16 @@
           <div><div class="meta-label">${escapeHtml(translate("caseTechnologies", lang))}</div><div class="meta-value">${escapeHtml(project.technologies?.join(" · ") || translate("v2TechnologyPlaceholder", lang))}</div></div>
         </div>
         ${projectGallery}
-        <p class="case-visual-caption">${escapeHtml(translate("caseCaption", lang))}</p>
+        ${projectGallery ? `<p class="case-visual-caption">${escapeHtml(translate("caseCaption", lang))}</p>` : ""}
       </section>
       <div class="case-sections">
         <aside class="case-index">${escapeHtml(translate("caseStudyPrefix", lang))} / ${escapeHtml(project.number)}</aside>
         <div class="case-copy">
-          <section><div class="case-index">${escapeHtml(translate("sectionContext", lang))}</div><h2>${escapeHtml(translate("contextTitle", lang))}</h2><p>${escapeHtml(project.caseSummary)}</p></section>
-          <section><div class="case-index">${escapeHtml(translate("sectionGoal", lang))}</div><h2>${escapeHtml(translate("goalTitle", lang))}</h2><p>${escapeHtml(project.goal)}</p></section>
-          <section><div class="case-index">${escapeHtml(translate("sectionContribution", lang))}</div><h2>${escapeHtml(translate("contributionTitle", lang))}</h2><ul>${contributions}</ul></section>
-          <section><div class="case-index">${escapeHtml(translate("sectionSolution", lang))}</div><h2>${escapeHtml(translate("solutionTitle", lang))}</h2><p>${escapeHtml(project.solution)}</p></section>
-          <section><div class="case-index">${escapeHtml(translate("sectionResults", lang))}</div><h2>${escapeHtml(translate("resultsTitle", lang))}</h2><p>${escapeHtml(project.results || translate("unverifiedResults", lang))}</p></section>
+          <section><div class="case-index">${escapeHtml(translate("sectionContext", lang))}</div><h2>${escapeHtml(translate("contextTitle", lang))}</h2>${renderParagraphs(project.caseSummary)}</section>
+          <section><div class="case-index">${escapeHtml(translate("sectionGoal", lang))}</div><h2>${escapeHtml(translate("goalTitle", lang))}</h2>${renderParagraphs(project.goal)}</section>
+          <section><div class="case-index">${escapeHtml(translate("sectionContribution", lang))}</div><h2>${escapeHtml(translate("contributionTitle", lang))}</h2>${renderParagraphs(project.contributionsIntro)}<ul>${contributions}</ul></section>
+          <section><div class="case-index">${escapeHtml(translate("sectionSolution", lang))}</div><h2>${escapeHtml(translate("solutionTitle", lang))}</h2>${renderParagraphs(project.solution)}</section>
+          <section><div class="case-index">${escapeHtml(translate("sectionResults", lang))}</div><h2>${escapeHtml(translate("resultsTitle", lang))}</h2>${renderParagraphs(project.results || translate("unverifiedResults", lang))}</section>
           <section><div class="case-index">${escapeHtml(translate("caseTechnologies", lang))}</div><h2>${escapeHtml(translate("caseTechnologies", lang))}</h2><ul class="technology-list">${technologies}</ul></section>
         </div>
       </div>
@@ -681,8 +669,8 @@
     initializeProjectCarousel(main);
     updateMetadata({
       title: `${project.name} — ${translate("caseStudyPrefix", lang)} | Mate Nikić`,
-      description: project.caseSummary,
-      image: project.screenshot || "assets/mate-portrait.png",
+      description: projectText(project.caseSummary),
+      image: project.cardImage || "assets/mate-portrait.png",
       caseId: project.id
     });
   };

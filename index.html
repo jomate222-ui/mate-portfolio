@@ -1,204 +1,161 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="hr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#050b17">
+  <meta name="theme-color" content="#080808">
   <meta name="description" content="Mate Nikić povezuje web, marketing, tehnologiju i operacije kako bi tvrtke jasnije pokazale svoju vrijednost.">
-  <title>Mate Nikić — Digital, marketing i web</title>
-  <link href="assets/style.css" rel="stylesheet">
-  <script defer src="assets/main.js"></script>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Mate Nikić — Growth Marketing Operations Manager">
+  <meta property="og:description" content="Digital experiences, marketing operations and selected projects.">
+  <meta property="og:image" content="assets/mate-portrait.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="./">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/v2.css">
+  <title>Mate Nikić — Growth Marketing Operations Manager</title>
+  <script defer src="assets/projects.js"></script>
+  <script defer src="assets/i18n.js"></script>
+  <script defer src="assets/v2.js"></script>
 </head>
-<body>
-  <header class="top">
-    <nav class="wrap nav" aria-label="Glavna navigacija" data-i18n-aria-label="mainNav">
-      <a class="logo" href="index.html" aria-label="Mate Nikić — naslovnica" data-i18n-aria-label="homeLabel">MATE<span>.</span>NIKIĆ</a>
-      <button aria-expanded="false" aria-label="Otvori navigaciju" class="navbtn" type="button">☰ <span data-i18n="menuLabel">Izbornik</span></button>
-      <div class="navlinks">
-        <a href="#work" data-i18n="navProjects">Projekti</a>
-        <a href="#expertise" data-i18n="navExpertise">Što radim</a>
-        <a href="#about" data-i18n="navAbout">O meni</a>
-        <a href="#contact" data-i18n="navContact">Kontakt ↗</a>
+<body id="top">
+  <div class="ticker" aria-hidden="true"><span id="ticker-copy">✳ Digital experiences, marketing systems & meaningful work. — Built with intention. ✳</span></div>
+  <header class="header">
+    <div class="wrap nav">
+      <a href="#top" class="brand" aria-label="Mate Nikić — naslovnica">M — N</a>
+      <nav class="navlinks" id="main-navigation" aria-label="Glavna navigacija">
+        <a href="#work" data-nav="work">Projekti</a>
+        <a href="#areas" data-nav="areas">Područja rada</a>
+        <a href="#about" data-nav="about">O meni</a>
+        <a href="#experience" data-nav="experience">Iskustvo</a>
+        <a href="#contact" data-nav="contact">Kontakt</a>
+      </nav>
+      <div class="navend">
+        <div class="language-switch" role="group" aria-label="Jezik">
+          <button type="button" data-language="hr" aria-pressed="true">HR</button>
+          <span aria-hidden="true">/</span>
+          <button type="button" data-language="en" aria-pressed="false">EN</button>
+        </div>
+        <button class="menu" id="menu-toggle" type="button" aria-controls="main-navigation" aria-expanded="false" aria-label="Otvori navigaciju">☰</button>
       </div>
-      <div class="language-switch" role="group" aria-label="Jezik">
-        <button type="button" data-language="hr" aria-pressed="true">HR</button>
-        <span aria-hidden="true">/</span>
-        <button type="button" data-language="en" aria-pressed="false">EN</button>
-      </div>
-    </nav>
+    </div>
   </header>
 
   <main>
-    <div class="wrap">
-      <section class="hero personal-hero" aria-labelledby="hero-title">
-        <div class="hero-copy reveal">
-          <div class="eyebrow" data-i18n="heroEyebrow">MATE NIKIĆ · DIGITAL &amp; MARKETING</div>
-          <h1 id="hero-title" data-i18n-html="heroTitle">Pomažem tvrtkama da se predstave <em>onako kako zaslužuju.</em></h1>
-          <p class="lead" data-i18n="heroIntro">Vjerujem da kvalitetan posao zaslužuje jednako kvalitetnu digitalnu prisutnost. Kroz web dizajn, marketing i digitalna rješenja pomažem tvrtkama da jasnije pokažu tko su, što rade i po čemu se razlikuju.</p>
-          <div class="stats" aria-label="Iskustvo i fokus">
-            <span class="pill" data-i18n="years">7+ GODINA ISKUSTVA</span>
-            <span class="pill" data-i18n="projectsCount">30+ PROJEKATA</span>
-            <span class="pill" data-i18n="heroAreas">WEB · MARKETING · TEHNOLOGIJA</span>
-          </div>
-          <div class="actions">
-            <a class="btn primary" href="#work" data-i18n="explore">Pogledajte moje projekte</a>
-            <a class="btn" href="#about" data-i18n="moreAbout">Više o meni</a>
-          </div>
+    <section class="hero wrap" id="hero" aria-labelledby="hero-title">
+      <div class="hero-art reveal">
+        <div class="globe" aria-hidden="true"></div>
+        <img class="hero-photo" src="assets/mate-portrait.png" alt="Portret Mate Nikića" data-v2-alt="portraitAlt" width="1536" height="1024" fetchpriority="high">
+      </div>
+      <div class="hero-copy reveal">
+        <div class="eyebrow" data-v2="heroEyebrow">GROWTH MARKETING OPERATIONS MANAGER</div>
+        <h1 id="hero-title">Mate Nikić</h1>
+        <p class="intro-strong" data-v2="heroIntro">Spajam marketing, tehnologiju i dizajn kako bih stvarao digitalna iskustva koja rade — ne samo dobro izgledaju.</p>
+        <p class="hero-detail" data-v2="heroDetail">Radim na web stranicama, automatizaciji, analitici i marketinškim sustavima, uz fokus na rješavanje stvarnih poslovnih problema.</p>
+        <div class="actions">
+          <a class="btn primary" href="#contact" data-v2="heroContact">Javi se ↗</a>
+          <a class="btn secondary" href="#work" data-v2="heroWork">Pogledaj radove</a>
         </div>
-        <div class="portrait-frame hero-portrait">
-          <img class="portrait-image" src="assets/mate-portrait.png" alt="Portret Mate Nikića">
-          <div class="portrait-caption"><strong>MATE NIKIĆ</strong><span data-i18n="portraitRole">DIGITAL &amp; MARKETING</span></div>
-        </div>
-      </section>
-    </div>
-
-    <section class="section section-spaced" id="work">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div>
-            <div class="eyebrow" data-i18n="workEyebrow">01 / ODABRANI RADOVI</div>
-            <h2 data-i18n-html="workTitle">Projekti koji rješavaju <span class="accent">stvarne izazove.</span></h2>
-          </div>
-          <p class="muted" data-i18n="workIntro">Svaki projekt počinje razumijevanjem cilja. Pogledajte kako sam pristupio različitim poslovnim potrebama.</p>
-        </div>
-        <div class="portfolio-toolbar" aria-label="Filtriranje projekata" data-i18n-aria-label="filterToolbar">
-          <div class="filter-top">
-            <div>
-              <strong data-i18n="filterLabel">Filtriraj po usluzi</strong>
-              <p class="muted" data-i18n="filterHelp">Odaberite područje ili potražite sličan projekt.</p>
-            </div>
-            <label class="search-label">
-              <span class="sr-only" data-i18n="searchLabel">Pretraži projekte</span>
-              <input autocomplete="off" id="project-search" type="search" placeholder="Pretraži projekte…" data-i18n-placeholder="searchPlaceholder">
-            </label>
-          </div>
-          <div class="filter-controls">
-            <label class="category-select-label">
-              <span class="sr-only" data-i18n="filterGroup">Kategorija usluge</span>
-              <select id="project-category" aria-label="Kategorija usluge" data-i18n-aria-label="filterGroup">
-                <option value="all" data-i18n="allProjects">Svi projekti</option>
-                <option value="web" data-i18n="filterWeb">Web development</option>
-                <option value="branding" data-i18n="filterBranding">Brendiranje</option>
-                <option value="crm" data-i18n="filterCrm">CRM i automatizacija</option>
-                <option value="marketing" data-i18n="filterMarketing">Marketing</option>
-                <option value="ecommerce" data-i18n="filterEcommerce">E-trgovina</option>
-                <option value="portal" data-i18n="filterPortal">Portali</option>
-                <option value="seo" data-i18n="filterSeo">SEO i analitika</option>
-              </select>
-            </label>
-          </div>
-          <div class="filter-bottom">
-            <span aria-live="polite" id="project-count">9 projekata</span>
-            <button class="reset-filter" id="reset-filters" type="button" data-i18n="reset">Očisti filtere ↺</button>
-          </div>
-          <p class="pricing-note" data-i18n="pricingNote">Cijene nisu objavljene ako nisu potvrđene. Ne prikazujem izmišljene iznose.</p>
-        </div>
-        <p class="no-projects" id="no-projects" hidden data-i18n="noProjects">Nema projekata za odabrani filter. Pokušaj s drugom kategorijom.</p>
-        <div class="grid" aria-live="polite"></div>
+        <div class="tiny" data-v2="heroFocus">Web · Marketing · Operations</div>
       </div>
     </section>
 
-    <section class="section" id="expertise">
+    <section class="section" id="work" aria-labelledby="work-title">
       <div class="wrap">
-        <div class="section-head reveal">
+        <div class="section-top reveal">
           <div>
-            <div class="eyebrow" data-i18n="expertiseEyebrow">02 / PODRUČJA RADA</div>
-            <h2 data-i18n-html="expertiseTitle">Od dobre ideje do <span class="accent">boljeg digitalnog iskustva.</span></h2>
+            <div class="eyebrow" data-v2="workEyebrow">01 / ODABRANI RADOVI</div>
+            <h2 id="work-title" data-v2="workTitle">Projekti izgrađeni oko stvarnih izazova.</h2>
           </div>
+          <p class="section-sub" data-v2="workIntro">Od korporativnih platformi do manjih brendova. Jednostavna, funkcionalna i promišljena digitalna rješenja.</p>
         </div>
-        <div class="skills">
-          <article class="skill reveal"><b data-i18n="skillWebTitle">Web i digitalne platforme</b><p data-i18n="skillWeb">Izrađujem pregledne, brze i prilagođene web stranice koje posjetiteljima olakšavaju sljedeći korak.</p></article>
-          <article class="skill reveal"><b data-i18n="skillMarketingTitle">Digitalni marketing i kampanje</b><p data-i18n="skillMarketing">Pomažem dosegnuti pravu publiku kroz sadržaj, oglase i odredišne stranice s jasnim ciljem.</p></article>
-          <article class="skill reveal"><b data-i18n="skillCrmTitle">CRM i upravljanje upitima</b><p data-i18n="skillCrm">Organiziram kontakte i upite kako bi prilike bile lakše pratiti, a razgovore jednostavnije nastaviti.</p></article>
-          <article class="skill reveal"><b data-i18n="skillAutomationTitle">Marketing automatizacija</b><p data-i18n="skillAutomation">Povezujem podatke i automatiziram ponavljajuće korake kako bi svakodnevni rad bio jednostavniji.</p></article>
-          <article class="skill reveal"><b data-i18n="skillAnalyticsTitle">Analitika i optimizacija</b><p data-i18n="skillAnalytics">Postavljam mjerenje koje pomaže razumjeti što funkcionira i gdje vrijedi usmjeriti pozornost.</p></article>
-          <article class="skill reveal"><b data-i18n="skillIntegrationsTitle">Povezivanje alata</b><p data-i18n="skillIntegrations">Povezujem postojeće alate u sustave koji odgovaraju načinu na koji timovi zaista rade.</p></article>
-        </div>
+        <div class="project-grid" id="projects" aria-label="Odabrani projekti" data-v2-aria-label="projectListLabel"></div>
       </div>
     </section>
 
-    <section class="section about-chapter" id="about">
+    <section class="section" id="areas" aria-labelledby="areas-title">
       <div class="wrap">
-        <div class="about-heading reveal">
-          <div class="eyebrow" data-i18n="aboutEyebrow">03 / O MENI</div>
-          <h2 data-i18n-html="aboutTitle">Dobar digitalni posao počinje <span class="accent">dobrim razumijevanjem.</span></h2>
-          <p class="about-intro" data-i18n="aboutIntro">Ja sam Mate — Growth Marketing Operations Manager koji povezuje marketing, tehnologiju i poslovne potrebe.</p>
+        <div class="section-top reveal">
+          <div>
+            <div class="eyebrow" data-v2="areasEyebrow">02 / PODRUČJA RADA</div>
+            <h2 id="areas-title" data-v2="areasTitle">Od dobre ideje do boljeg digitalnog iskustva.</h2>
+          </div>
         </div>
-        <div class="about-editorial">
+        <div class="areas" id="expertise-list"></div>
+      </div>
+    </section>
+
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="wrap">
+        <div class="section-top reveal">
+          <div>
+            <div class="eyebrow" data-v2="aboutEyebrow">03 / O MENI</div>
+            <h2 id="about-title" data-v2="aboutTitle">Dobar digitalni posao počinje razumijevanjem.</h2>
+          </div>
+        </div>
+        <div class="about-grid">
           <div class="about-copy reveal">
-            <p data-i18n="aboutP1">U svom radu spajam web, marketing i operativnu stranu digitalnog poslovanja. Tijekom više od sedam godina radio sam na različitim projektima — od web stranica i kampanja do CRM-a, analitike i automatizacije.</p>
-            <p data-i18n="aboutP2">Najprije želim razumjeti što tvrtka pokušava postići i što joj trenutno stoji na putu. Zatim složene zadatke rastavljam na jasne, izvedive korake. Ponekad je rješenje nova stranica; ponekad je važnije povezati postojeće alate ili bolje organizirati podatke i procese.</p>
-            <p data-i18n="aboutP3">Vjerujem da dobra digitalna prisutnost treba jasno pokazati stvarnu vrijednost poslovanja i olakšati ljudima da naprave sljedeći korak. Zato tražim rješenja koja su promišljena, korisna i održiva za ljude koji će ih svakodnevno koristiti.</p>
-            <p data-i18n="aboutP4">Radio sam u suradnji s različitim funkcijama i stručnjacima. Najviše mi odgovara pristup u kojem marketing, dizajn, tehnologija i poslovanje rade prema zajedničkom cilju — bez nepotrebne složenosti.</p>
-            <a class="text-link" href="#contact" data-i18n="aboutContact">Razgovarajmo o tome što vam treba ↗</a>
+            <p class="about-lead" data-v2="aboutIntro">Povezujem marketing, tehnologiju i poslovne potrebe.</p>
+            <p data-i18n="aboutP1">U svom radu spajam web, marketing i operativnu stranu digitalnog poslovanja.</p>
+            <p data-i18n="aboutP2">Najprije želim razumjeti što tvrtka pokušava postići i što joj trenutno stoji na putu.</p>
+            <p data-i18n="aboutP4">Radio sam u suradnji s različitim funkcijama i stručnjacima.</p>
+            <a class="text-link" href="#contact" data-v2="aboutContact">Razgovarajmo o tome što vam treba ↗</a>
           </div>
-          <div class="about-aside">
-            <div class="portrait-frame about-portrait">
-              <img class="portrait-image" src="assets/mate-portrait.png" alt="Portret Mate Nikića">
-              <div class="portrait-caption"><strong>MATE NIKIĆ</strong></div>
+          <div class="about-aside reveal">
+            <div class="about-image">
+              <img src="assets/mate-portrait.png" alt="Mate Nikić" data-v2-alt="portraitAlt" width="1536" height="1024" loading="lazy">
             </div>
-            <div class="facts-panel reveal">
-              <p class="panel-label" data-i18n="aboutFacts">UKRATKO</p>
+            <div class="facts-panel">
+              <p class="panel-label" data-v2="aboutFacts">UKRATKO</p>
               <dl>
                 <div><dt data-i18n="factRole">Uloga</dt><dd data-i18n="factRoleValue">Growth Marketing Operations Manager</dd></div>
                 <div><dt data-i18n="factExperience">Iskustvo</dt><dd data-i18n="factExperienceValue">7+ godina</dd></div>
-                <div><dt data-i18n="factProjects">Projekti</dt><dd data-i18n="factProjectsValue">30+</dd></div>
                 <div><dt data-i18n="factFocus">Fokus</dt><dd data-i18n="factFocusValue">Marketing · web · tehnologija</dd></div>
               </dl>
             </div>
           </div>
         </div>
-        <div class="expertise-panel reveal">
-          <p class="panel-label" data-i18n="expertiseLabel">PODRUČJA ISKUSTVA</p>
-          <ul id="expertise-list">
-            <li>Web razvoj i upravljanje webom</li><li>CRM i marketing automatizacija</li><li>Analitika i mjerenje</li>
-            <li>SEO i digitalno oglašavanje</li><li>Odredišne stranice i kampanje</li><li>Integracije marketinških alata</li>
-          </ul>
-        </div>
       </div>
     </section>
 
-    <section class="section timeline-section" id="career">
+    <section class="section timeline-section" id="experience" aria-labelledby="experience-title">
       <div class="wrap">
-        <div class="section-head reveal">
+        <div class="section-top reveal">
           <div>
-            <div class="eyebrow" data-i18n="timelineEyebrow">04 / PROFESIONALNI PUT</div>
-            <h2 data-i18n-html="timelineTitle">Iskustvo nastaje <span class="accent">korak po korak.</span></h2>
+            <div class="eyebrow" data-v2="timelineEyebrow">04 / PROFESIONALNI PUT</div>
+            <h2 id="experience-title" data-v2="timelineTitle">Iskustvo nastaje korak po korak.</h2>
           </div>
-          <p class="muted" data-i18n="timelineIntro">Nekoliko važnih etapa koje su oblikovale moj rad na spoju marketinga, tehnologije i poslovanja.</p>
+          <p class="section-sub" data-v2="timelineIntro">Nekoliko važnih etapa koje su oblikovale moj rad na spoju marketinga, tehnologije i poslovanja.</p>
         </div>
         <div class="timeline-shell">
           <div class="timeline-track" aria-hidden="true"><span class="timeline-progress"></span></div>
-          <ol class="career-timeline" id="career-timeline">
-            <li class="timeline-item"><span class="timeline-marker" aria-hidden="true"></span><article class="timeline-card"><p class="timeline-date">RANIJE ISKUSTVO · DATUM ZA POTVRDU</p><h3>Digitalni marketing i web projekti</h3><p>Početak rada na digitalnom marketingu i web projektima. Točan datum i pojedinosti još treba potvrditi.</p></article></li>
-            <li class="timeline-item"><span class="timeline-marker" aria-hidden="true"></span><article class="timeline-card"><p class="timeline-date">TRAVANJ 2024.</p><h3>Clinical Marketing Coordinator</h3><p>Rad na kliničkom marketingu u suradnji s različitim timovima i stručnim područjima.</p></article></li>
-            <li class="timeline-item"><span class="timeline-marker" aria-hidden="true"></span><article class="timeline-card"><p class="timeline-date">TRAVANJ 2025.</p><h3>Growth Marketing Operations Manager</h3><p>Širenje fokusa na marketing operacije, procese, alate i povezivanje aktivnosti kroz cijeli korisnički put.</p></article></li>
-            <li class="timeline-item"><span class="timeline-marker" aria-hidden="true"></span><article class="timeline-card"><p class="timeline-date">RUJAN 2025.</p><h3>Magistar poslovne ekonomije — Menadžment</h3><p>Završetak diplomskog studija poslovne ekonomije, smjer menadžment.</p></article></li>
-            <li class="timeline-item"><span class="timeline-marker" aria-hidden="true"></span><article class="timeline-card"><p class="timeline-date">2025.–2026.</p><h3>Web, akademske platforme i marketing operacije</h3><p>Rad na korporativnim webovima, akademskoj platformi, analitici, marketing operacijama i širim digitalnim projektima.</p></article></li>
-            <li class="timeline-item"><span class="timeline-marker" aria-hidden="true"></span><article class="timeline-card"><p class="timeline-date">TRENUTAČNO</p><h3>Povezivanje disciplina</h3><p>Povezujem marketing, tehnologiju, dizajn i poslovne ciljeve u praktične digitalne sustave.</p></article></li>
-          </ol>
+          <ol class="career-timeline" id="career-timeline" aria-label="Profesionalno iskustvo" data-v2-aria-label="timelineListLabel"></ol>
         </div>
         <p class="timeline-note" data-i18n="timelineNote">Rani datumi i pojedinosti karijere označeni su za potvrdu.</p>
       </div>
     </section>
 
-    <section class="section" id="contact">
+    <section class="contact" id="contact" aria-labelledby="contact-title">
       <div class="wrap">
-        <div class="contact contact-chapter reveal">
-          <div class="eyebrow" data-i18n="contactEyebrow">05 / KONTAKT</div>
-          <h2 data-i18n-html="contactTitle">Imate ideju?<br><span class="accent">Razgovarajmo.</span></h2>
-          <p class="lead" data-i18n="contactIntro">Bilo da planirate web, želite bolje povezati marketing i tehnologiju ili pojednostaviti neki proces, rado ću čuti više.</p>
-          <a class="btn primary" href="mailto:EMAIL_ADRESA_OVDJE" data-i18n="contactButton">Pošalji e-mail ↗</a>
-          <p class="email-note" data-i18n="emailNote">Prije objave zamijeni adresu e-pošte potvrđenim kontaktom.</p>
+        <div class="eyebrow" data-v2="contactEyebrow">05 / KONTAKT</div>
+        <h2 class="reveal" id="contact-title" data-v2-html="contactTitle">Imate ideju?<br><span>Razgovarajmo.</span></h2>
+        <p data-v2="contactIntro">Za zanimljive projekte i suradnje — slobodno mi se javite.</p>
+        <div class="actions contact-actions">
+          <a class="btn primary" href="mailto:EMAIL_ADRESA_OVDJE" data-v2="contactEmail">EMAIL_ADRESA_OVDJE</a>
+          <a class="btn secondary" href="https://www.linkedin.com/in/REPLACE_WITH_PROFILE/" target="_blank" rel="noopener noreferrer" data-v2="contactLinkedIn">LinkedIn profil — dodati URL ↗</a>
         </div>
+        <p class="tiny contact-note" data-v2="contactNote">Prije objave zamijeni označene kontaktne podatke stvarnim adresama.</p>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="wrap foot-inner">
-      <span>© 2026 Mate Nikić · <span data-i18n="allRights">Sva prava pridržana.</span></span>
-      <span data-i18n="footerFocus">Digitalni marketing · Web · Tehnologija</span>
+    <div class="wrap footer-inner">
+      <span>© <span id="year"></span> Mate Nikić</span>
+      <span data-v2="footerFocus">Digitalni marketing · Web · Tehnologija</span>
+      <a href="#top" data-v2="backToTop">Natrag na vrh ↑</a>
     </div>
   </footer>
 </body>

@@ -1,31 +1,42 @@
-# Mate Nikić — Portfolio
+# Mate Nikić — Portfolio V2
 
-Statički HTML/CSS/JS portfolio, spreman za Cloudflare Pages.
+Static, bilingual portfolio built with semantic HTML, CSS, and vanilla JavaScript. The production site is served directly from the repository root and is compatible with Cloudflare Pages.
 
-## Lokalno pokretanje
+## Local preview
 
-U direktoriju projekta pokreni `python -m http.server 8000` i otvori http://localhost:8000.
+From the repository root, run:
+
+```sh
+python3 -m http.server 8000
+```
+
+Open <http://localhost:8000>. Use `Ctrl+C` to stop the server. Case studies use shareable URLs such as `case-study.html?id=cyntegrity&lang=en`; the language can be changed in the header and is remembered for later navigation.
+
+## Editing content
+
+- `index.html` contains the six homepage sections and the reusable page shell.
+- `case-study.html` is the shared, URL-addressable case-study page.
+- `assets/v2.css` contains the V2 black/orange design system, responsive layouts, and timeline styling.
+- `assets/v2.js` renders project cards, expertise, the translated timeline, and case-study details.
+- `assets/projects.js` is the source for project names, Croatian descriptions, imagery, links, technologies, and case-study details.
+- `assets/i18n.js` contains English project translations, Croatian/English interface copy, and the bilingual career milestones.
+- `assets/screenshot-*.webp` are the existing project visuals used by the cards and case studies. Projects without a confirmed visual display an explicit placeholder instead.
+- `assets/mate-portrait.png` is used for the hero and About portrait.
+
+Keep missing facts clearly marked until verified. In particular, replace `EMAIL_ADRESA_OVDJE` and the LinkedIn profile placeholder in `index.html` before publishing. Add confirmed imagery for NK Gavran Lanište and Zauvijek si tu when available. Review career dates and employer names, the exact scope of each project contribution, and case-study outcomes before publication; numerical results are intentionally not claimed.
 
 ## Cloudflare Pages
 
-1. Kreiraj novi GitHub repository `mate-portfolio`.
-2. Prenesi **sadržaj** ove mape u root repozitorija.
-3. Cloudflare → Workers & Pages → Create → Pages → Connect to Git.
-4. Odaberi repository. Build command ostavi prazno, output directory `.` (root).
-5. Deploy. Dobit ćeš besplatnu `*.pages.dev` adresu.
+Connect the repository to Cloudflare Pages, leave the build command empty, and set the output directory to `.`. No framework, package install, or build step is required. Preview the branch locally before choosing any deployment settings; this branch is not deployed automatically.
 
-## Prije javne objave
+## Versioning
 
-- Zamijeni `EMAIL_ADRESA_OVDJE` u `index.html`.
-- Dodaj provjerene screenshotove za NK Gavran Lanište i Zauvijek si tu; te stranice nemaju potvrđen live URL.
-- Pregledaj i odobri tekstove studija slučaja.
-- Projektni podaci za naslovnicu i svih devet studija slučaja nalaze se u `assets/projects.js`; predloške prikazuje `assets/portfolio.js`.
-- Croatian website copy, English translations, homepage biography, and editable bilingual career milestones live in `assets/i18n.js`.
-- Replace the portrait placeholder by adding `assets/mate-portrait.jpg`; both portrait frames use this single shared path.
-- Slike `assets/case-1.png` do `case-7.png` postojeći su prikazi projekata sa snimkama odgovarajućih web stranica; njihove optimizirane WebP verzije koriste se na naslovnici i pripadajućim studijama slučaja.
-- Cijene koje nisu potvrđene ostaju označene kao mjesta za unos; live linkovi nisu dodani projektima bez potvrđenog URL-a.
-- Web koristi Google Fonts (DM Sans i Space Grotesk); bez interneta pada na lokalni sans-serif.
+Portfolio V2 work is on the `portfolio-v2` branch. The production `main` branch was left unchanged and is locally tagged as `portfolio-v9-backup`. The supplied `v2-reference/` directory is reference material and is not used as the deployed page root.
 
+## Manual review checklist
 
-## V2 – filtriranje i predložak
-Na početnoj stranici filteri rade prema uslugama i tekstualnoj pretrazi. Cijene nisu uključene jer u izvornom PDF-u nisu navedene; mogu se naknadno dodati samo uz potvrđene podatke. Svaka studija slučaja sada slijedi pet jednakih sekcija: kontekst, cilj, doprinos, rješenje, rezultati. Nedostajući rezultati su jasno označeni.
+- Confirm the real email address and LinkedIn profile URL.
+- Confirm career dates and employer names; only details present in the source timeline are currently shown.
+- Add approved screenshots for the two projects that do not yet have them.
+- Review project responsibilities and any future outcome copy with verified facts.
+- Check desktop, tablet, and mobile rendering in a browser before publishing.

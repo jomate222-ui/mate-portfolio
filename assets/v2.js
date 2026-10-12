@@ -32,6 +32,56 @@
     if (element) element.textContent = value;
   };
 
+  const currentTheme = () => document.documentElement.dataset.theme === "light" ? "light" : "dark";
+  const updateThemeControls = () => {
+    const theme = currentTheme();
+    const label = translate(theme === "dark" ? "themeToLight" : "themeToDark");
+    document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+      button.setAttribute("aria-label", label);
+      button.setAttribute("title", label);
+      button.setAttribute("aria-pressed", String(theme === "light"));
+    });
+    document.querySelector('meta[name="theme-color"]')?.setAttribute(
+      "content",
+      theme === "light" ? "#FAF9F6" : "#080808"
+    );
+  };
+
+  const applyTheme = (theme, persist = true) => {
+    const selectedTheme = theme === "light" ? "light" : "dark";
+    document.documentElement.dataset.theme = selectedTheme;
+    updateThemeControls();
+    if (!persist) return;
+    try {
+      window.localStorage.setItem("mate-portfolio-theme", selectedTheme);
+    } catch (error) {
+      console.info("Theme preference could not be saved.", error);
+    }
+  };
+
+  const renderTicker = (lang) => {
+    const track = document.querySelector("#ticker-track");
+    if (!track) return;
+    const phraseMarkup = translate("tickerPhrases", lang).map((phrase) => `
+      <span class="ticker-separator" aria-hidden="true">✳</span>
+      <span class="ticker-phrase">${escapeHtml(phrase)}</span>`).join("");
+    const copies = track.querySelectorAll(".ticker-copy");
+    copies[0].innerHTML = phraseMarkup;
+    copies[1].innerHTML = phraseMarkup;
+
+    const setSpeed = () => {
+      const copyWidth = copies[0].getBoundingClientRect().width;
+      if (copyWidth > 0) track.style.setProperty("--ticker-duration", `${copyWidth / 80}s`);
+    };
+
+    setSpeed();
+    if ("ResizeObserver" in window) {
+      tickerResizeObserver?.disconnect();
+      tickerResizeObserver = new ResizeObserver(setSpeed);
+      tickerResizeObserver.observe(copies[0]);
+    }
+  };
+
   const updateCommonContent = (lang) => {
     document.documentElement.lang = lang;
     document.querySelectorAll("[data-v2]").forEach((element) => {
@@ -67,6 +117,11 @@
         button.setAttribute("aria-pressed", String(active));
       });
     });
+    document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+      button.setAttribute("aria-label", translate(currentTheme() === "dark" ? "themeToLight" : "themeToDark", lang));
+      button.setAttribute("title", translate(currentTheme() === "dark" ? "themeToLight" : "themeToDark", lang));
+      button.setAttribute("aria-pressed", String(currentTheme() === "light"));
+    });
     document.querySelectorAll(".section-top.reveal").forEach((heading, index) => {
       heading.style.setProperty("--reveal-delay", `${Math.min(index * 70, 280)}ms`);
     });
@@ -79,7 +134,8 @@
     });
     const menu = document.querySelector("#menu-toggle");
     menu?.setAttribute("aria-label", translate("menu", lang));
-    setText("#ticker-copy", `✳ ${translate("ticker", lang)} ✳`);
+    document.querySelector(".brand")?.setAttribute("aria-label", translate("logoLabel", lang));
+    renderTicker(lang);
     setText("#year", String(new Date().getFullYear()));
   };
 
@@ -165,6 +221,7 @@
     setMeta('link[rel="canonical"]', "href", canonical.href);
   };
 
+  let tickerResizeObserver;
   let revealObserver;
   if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     revealObserver = new IntersectionObserver((entries, observer) => {
@@ -337,6 +394,71 @@
     button.addEventListener("click", () => window.setPortfolioLanguage(button.dataset.language));
   });
 
+  document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+    button.addEventListener("click", () => applyTheme(currentTheme() === "dark" ? "light" : "dark"));
+  });
+
+  const logo = document.querySelector(".brand");
+  const logoLetters = [...(logo?.querySelectorAll("[data-logo-letter]") || [])];
+  const logoSeparator = logo?.querySelector("[data-logo-separator]");
+  const reduceLogoMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const coarsePointer = window.matchMedia("(pointer: coarse)");
+  let logoInterval;
+  let logoTimeout;
+  let pointerOnLogo = false;
+  let separatorIsPlus = false;
+
+  const settleLogo = () => {
+    window.clearInterval(logoInterval);
+    window.clearTimeout(logoTimeout);
+    separatorIsPlus = false;
+    logoLetters.forEach((letter) => {
+      letter.textContent = letter.dataset.logoLetter;
+      letter.classList.remove("is-scrambling");
+    });
+    if (logoSeparator) logoSeparator.textContent = "−";
+  };
+
+  const startLogoScramble = (duration = 0) => {
+    settleLogo();
+    if (reduceLogoMotion.matches || coarsePointer.matches || logoLetters.length !== 2) return;
+    const scramble = () => {
+      logoLetters.forEach((letter) => {
+        letter.textContent = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        letter.classList.add("is-scrambling");
+      });
+      separatorIsPlus = !separatorIsPlus;
+      if (logoSeparator) logoSeparator.textContent = separatorIsPlus ? "+" : "−";
+    };
+    scramble();
+    logoInterval = window.setInterval(scramble, 80);
+    if (duration) {
+      logoTimeout = window.setTimeout(() => {
+        if (!pointerOnLogo) settleLogo();
+      }, duration);
+    }
+  };
+
+  logo?.addEventListener("pointerenter", (event) => {
+    if (event.pointerType === "touch" || coarsePointer.matches) return;
+    pointerOnLogo = true;
+    startLogoScramble();
+  });
+  logo?.addEventListener("pointerleave", () => {
+    pointerOnLogo = false;
+    settleLogo();
+    if (logo.matches(":focus")) startLogoScramble(640);
+  });
+  logo?.addEventListener("focus", () => {
+    if (!pointerOnLogo) startLogoScramble(640);
+  });
+  logo?.addEventListener("blur", () => {
+    if (!pointerOnLogo) settleLogo();
+  });
+  reduceLogoMotion.addEventListener?.("change", () => {
+    if (reduceLogoMotion.matches) settleLogo();
+  });
+
   const menu = document.querySelector("#menu-toggle");
   const navigation = document.querySelector("#main-navigation");
   const closeMenu = () => {
@@ -361,4 +483,5 @@
 
   document.documentElement.classList.add("js");
   window.renderPortfolioLanguage(window.getPortfolioLanguage());
+  updateThemeControls();
 })();

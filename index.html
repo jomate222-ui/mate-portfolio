@@ -14,6 +14,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    try {
+      const theme = localStorage.getItem("mate-portfolio-theme");
+      document.documentElement.dataset.theme = theme === "light" ? "light" : "dark";
+    } catch (error) {
+      document.documentElement.dataset.theme = "dark";
+      console.info("Theme preference could not be read.", error);
+    }
+  </script>
   <link rel="stylesheet" href="assets/v2.css">
   <title>Mate Nikić — Growth Marketing Operations Manager</title>
   <script defer src="assets/projects.js"></script>
@@ -21,10 +30,17 @@
   <script defer src="assets/v2.js"></script>
 </head>
 <body id="top">
-  <div class="ticker" aria-hidden="true"><span id="ticker-copy">✳ Digital experiences, marketing systems & meaningful work. — Built with intention. ✳</span></div>
+  <div class="ticker">
+    <div class="ticker-track" id="ticker-track" tabindex="0" role="group" aria-label="Teme portfelja" data-v2-aria-label="tickerLabel">
+      <span class="ticker-copy" id="ticker-copy"><span class="ticker-separator" aria-hidden="true">✳</span><span class="ticker-phrase">Web razvoj</span><span class="ticker-separator" aria-hidden="true">✳</span><span class="ticker-phrase">Growth marketing</span><span class="ticker-separator" aria-hidden="true">✳</span><span class="ticker-phrase">Marketinške operacije</span><span class="ticker-separator" aria-hidden="true">✳</span><span class="ticker-phrase">Kreativno rješavanje problema</span><span class="ticker-separator" aria-hidden="true">✳</span><span class="ticker-phrase">Analitika</span><span class="ticker-separator" aria-hidden="true">✳</span><span class="ticker-phrase">Automatizacija</span><span class="ticker-separator" aria-hidden="true">✳</span><span class="ticker-phrase">Digitalna iskustva</span><span class="ticker-separator" aria-hidden="true">✳</span><span class="ticker-phrase">Dizajn</span><span class="ticker-separator" aria-hidden="true">✳</span><span class="ticker-phrase">Bolje web stranice</span></span>
+      <span class="ticker-copy" aria-hidden="true"><span class="ticker-separator">✳</span><span class="ticker-phrase">Web razvoj</span><span class="ticker-separator">✳</span><span class="ticker-phrase">Growth marketing</span><span class="ticker-separator">✳</span><span class="ticker-phrase">Marketinške operacije</span><span class="ticker-separator">✳</span><span class="ticker-phrase">Kreativno rješavanje problema</span><span class="ticker-separator">✳</span><span class="ticker-phrase">Analitika</span><span class="ticker-separator">✳</span><span class="ticker-phrase">Automatizacija</span><span class="ticker-separator">✳</span><span class="ticker-phrase">Digitalna iskustva</span><span class="ticker-separator">✳</span><span class="ticker-phrase">Dizajn</span><span class="ticker-separator">✳</span><span class="ticker-phrase">Bolje web stranice</span></span>
+    </div>
+  </div>
   <header class="header">
     <div class="wrap nav">
-      <a href="#top" class="brand" aria-label="Mate Nikić — naslovnica">M — N</a>
+      <a href="#top" class="brand" aria-label="Mate Nikić — naslovnica">
+        <span class="logo-glyph" data-logo-letter>M</span><span class="logo-separator" data-logo-separator aria-hidden="true">−</span><span class="logo-glyph" data-logo-letter>N</span>
+      </a>
       <nav class="navlinks" id="main-navigation" aria-label="Glavna navigacija">
         <a href="#work" data-nav="work">Projekti</a>
         <a href="#areas" data-nav="areas">Područja rada</a>
@@ -33,6 +49,10 @@
         <a href="#contact" data-nav="contact">Kontakt</a>
       </nav>
       <div class="navend">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Promijeni u svijetlu temu" aria-pressed="false">
+          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg>
+          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 15.2A8.5 8.5 0 0 1 8.8 3.6 8.6 8.6 0 1 0 20.4 15.2Z"></path></svg>
+        </button>
         <div class="language-switch" role="group" aria-label="Jezik">
           <button type="button" data-language="hr" aria-pressed="true">HR</button>
           <span aria-hidden="true">/</span>

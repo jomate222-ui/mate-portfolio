@@ -17,11 +17,13 @@ Open <http://localhost:8000>. Use `Ctrl+C` to stop the server. Case studies use 
 - `index.html` contains the six homepage sections and the reusable page shell.
 - `case-study.html` is the shared, URL-addressable case-study page.
 - `assets/v2.css` contains the V2 black/orange design system, responsive layouts, and timeline styling.
-- `assets/v2.js` renders project cards, expertise, the translated timeline, and case-study details.
+- `assets/v2.js` renders project cards, expertise, the translated timeline, case-study details, the marquee, theme preference, and logo interaction.
 - `assets/projects.js` is the source for project names, Croatian descriptions, imagery, links, technologies, and case-study details.
-- `assets/i18n.js` contains English project translations, Croatian/English interface copy, and the bilingual career milestones.
+- `assets/i18n.js` contains English project translations, Croatian/English interface copy, marquee phrases, and bilingual career milestones.
 - `assets/screenshot-*.webp` are the existing project visuals used by the cards and case studies. Projects without a confirmed visual display an explicit placeholder instead.
 - `assets/mate-portrait.png` is used for the hero and About portrait.
+
+The theme toggle stores its preference as `mate-portfolio-theme` in local storage; dark is the default. Update the bilingual marquee phrases and labels in `assets/i18n.js`. The header logo animation and theme/ticker styling use the shared JavaScript and CSS on both page types.
 
 Keep missing facts clearly marked until verified. In particular, replace `EMAIL_ADRESA_OVDJE` and the LinkedIn profile placeholder in `index.html` before publishing. Add confirmed imagery for NK Gavran Lanište and Zauvijek si tu when available. Review career dates and employer names, the exact scope of each project contribution, and case-study outcomes before publication; numerical results are intentionally not claimed.
 
@@ -39,4 +41,4 @@ Portfolio V2 work is on the `portfolio-v2` branch. The production `main` branch 
 - Confirm career dates and employer names; only details present in the source timeline are currently shown.
 - Add approved screenshots for the two projects that do not yet have them.
 - Review project responsibilities and any future outcome copy with verified facts.
-- Check desktop, tablet, and mobile rendering in a browser before publishing.
+- Check desktop, tablet, and mobile rendering in a browser, including both themes, keyboard controls, reduced motion, and timeline progress before publishing.

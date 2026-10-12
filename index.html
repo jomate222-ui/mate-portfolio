@@ -16,10 +16,18 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script>
     try {
-      const theme = localStorage.getItem("mate-portfolio-theme");
-      document.documentElement.dataset.theme = theme === "light" ? "light" : "dark";
+      const savedTheme = localStorage.getItem("mate-portfolio-theme");
+      const theme = savedTheme === "light" || savedTheme === "dark"
+        ? savedTheme
+        : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.style.colorScheme = theme;
+      document.querySelector('meta[name="theme-color"]').content = theme === "light" ? "#FAF9F6" : "#080808";
     } catch (error) {
-      document.documentElement.dataset.theme = "dark";
+      const theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.style.colorScheme = theme;
+      document.querySelector('meta[name="theme-color"]').content = theme === "light" ? "#FAF9F6" : "#080808";
       console.info("Theme preference could not be read.", error);
     }
   </script>
@@ -39,7 +47,7 @@
   <header class="header">
     <div class="wrap nav">
       <a href="#top" class="brand" aria-label="Mate Nikić — naslovnica">
-        <span class="logo-glyph" data-logo-letter>M</span><span class="logo-separator" data-logo-separator aria-hidden="true">−</span><span class="logo-glyph" data-logo-letter>N</span>
+        <span class="logo-glyph" data-logo-character="M">M</span><span class="logo-separator" data-logo-character="−" aria-hidden="true">−</span><span class="logo-glyph" data-logo-character="N">N</span>
       </a>
       <nav class="navlinks" id="main-navigation" aria-label="Glavna navigacija">
         <a href="#work" data-nav="work">Projekti</a>

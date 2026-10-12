@@ -1,6 +1,8 @@
 (() => {
   const projects = window.PORTFOLIO_PROJECTS;
   const content = window.PORTFOLIO_I18N;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let projectCarouselResizeObserver;
   if (!Array.isArray(projects) || !content) {
     throw new Error("Portfolio V2 content could not be loaded.");
   }
@@ -33,8 +35,18 @@
   };
 
   const currentTheme = () => document.documentElement.dataset.theme === "light" ? "light" : "dark";
+  const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
+  let hasManualThemePreference = false;
+  try {
+    const savedTheme = window.localStorage.getItem("mate-portfolio-theme");
+    hasManualThemePreference = savedTheme === "light" || savedTheme === "dark";
+  } catch (error) {
+    console.info("Theme preference could not be read.", error);
+  }
+
   const updateThemeControls = () => {
     const theme = currentTheme();
+    document.documentElement.style.colorScheme = theme;
     const label = translate(theme === "dark" ? "themeToLight" : "themeToDark");
     document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
       button.setAttribute("aria-label", label);
@@ -52,6 +64,7 @@
     document.documentElement.dataset.theme = selectedTheme;
     updateThemeControls();
     if (!persist) return;
+    hasManualThemePreference = true;
     try {
       window.localStorage.setItem("mate-portfolio-theme", selectedTheme);
     } catch (error) {
@@ -145,11 +158,15 @@
     grid.innerHTML = projects.map((sourceProject, index) => {
       const project = localizedProject(sourceProject, lang);
       const revealDelay = Math.min(index * 65, 390);
-      const image = project.screenshot
-        ? `<img src="${escapeHtml(project.screenshot)}" alt="${escapeHtml(project.screenshotAlt)}" width="2160" height="1215" loading="lazy" decoding="async">`
+      const cardImage = project.cardImage || project.screenshot;
+      const imageAlt = project.cardImage
+        ? lang === "hr" ? project.cardImageAltHr || project.cardImageAlt : project.cardImageAlt
+        : lang === "hr" ? project.screenshotAltHr || project.screenshotAlt : project.screenshotAlt;
+      const image = cardImage
+        ? `<img src="${escapeHtml(cardImage)}" alt="${escapeHtml(imageAlt)}" width="${project.cardImage ? 1536 : 2160}" height="${project.cardImage ? 1024 : 1215}" loading="lazy" decoding="async">`
         : `<div class="image-fallback" role="img" aria-label="${escapeHtml(project.screenshotAlt)}">${escapeHtml(project.placeholder || translate("casePlaceholderAlt", lang))}</div>`;
       return `<article class="project reveal" style="--reveal-delay: ${revealDelay}ms">
-        <a class="project-image" href="${caseUrl(project, lang)}" aria-label="${escapeHtml(`${translate("moreProject", lang)}: ${project.name}`)}">${image}</a>
+        <a class="project-image${project.cardImage ? " project-image-contain" : ""}" href="${caseUrl(project, lang)}" aria-label="${escapeHtml(`${translate("moreProject", lang)}: ${project.name}`)}">${image}</a>
         <div class="project-body">
           <div class="project-kicker">${escapeHtml(project.cardCategory)}</div>
           <h3><a href="${caseUrl(project, lang)}">${escapeHtml(project.name)}</a></h3>
@@ -296,6 +313,193 @@
     return projectIndex >= 0 ? projects[projectIndex] : null;
   };
 
+  const getGallerySlides = (project, lang) => {
+    const slides = [];
+    if (project.screenshot) {
+      slides.push({
+        src: project.screenshot,
+        alt: lang === "hr" ? project.screenshotAltHr || project.screenshotAlt : project.screenshotAlt
+      });
+    }
+    (project.galleryImages || []).forEach((image) => {
+      slides.push({
+        src: image.src,
+        width: image.width || 2160,
+        height: image.height || 1215,
+        alt: image.alt?.[lang] || image.alt?.hr || project.name
+      });
+    });
+    return slides;
+  };
+
+  const renderCaseGallery = (project, lang) => {
+    const slides = getGallerySlides(project, lang);
+    if (!slides.length) {
+      return `<figure class="case-visual">
+        <div class="image-fallback" role="img" aria-label="${escapeHtml(translate("casePlaceholderAlt", lang))}">${escapeHtml(project.placeholder || translate("casePlaceholderAlt", lang))}</div>
+      </figure>`;
+    }
+
+    const images = slides.map((slide, index) => `
+      <img src="${escapeHtml(slide.src)}" alt="${escapeHtml(slide.alt)}" width="${slide.width || 2160}" height="${slide.height || 1215}" ${index ? 'loading="lazy"' : 'fetchpriority="high"'} decoding="async" aria-hidden="${index !== 0}"${index ? " hidden" : ""}>`).join("");
+    if (slides.length === 1) {
+      return `<figure class="case-visual case-gallery-single">${images}</figure>`;
+    }
+
+    const positionLabel = (index) => translate("galleryImagePosition", lang)
+      .replace("{current}", String(index + 1).padStart(2, "0"))
+      .replace("{total}", String(slides.length).padStart(2, "0"));
+    const indicators = slides.map((slide, index) => `
+      <button class="gallery-indicator${index === 0 ? " is-active" : ""}" type="button" data-gallery-slide="${index}" aria-label="${escapeHtml(positionLabel(index))}" aria-pressed="${index === 0}"></button>`).join("");
+
+    return `<figure class="case-visual case-gallery" data-case-gallery tabindex="0" role="group" aria-roledescription="carousel" aria-label="${escapeHtml(translate("caseGalleryLabel", lang))}">
+      <div class="case-gallery-stage">${images}
+        <button class="gallery-arrow gallery-arrow-previous" type="button" data-gallery-previous aria-label="${escapeHtml(translate("previousImage", lang))}"><span aria-hidden="true">←</span></button>
+        <button class="gallery-arrow gallery-arrow-next" type="button" data-gallery-next aria-label="${escapeHtml(translate("nextImage", lang))}"><span aria-hidden="true">→</span></button>
+      </div>
+      <div class="case-gallery-controls">
+        <div class="gallery-indicators" role="group" aria-label="${escapeHtml(translate("caseGalleryLabel", lang))}">${indicators}</div>
+        <span class="gallery-counter" data-gallery-counter aria-live="polite">${escapeHtml(positionLabel(0))}</span>
+      </div>
+    </figure>`;
+  };
+
+  const renderRelatedProjects = (currentProject, lang) => {
+    const relatedProjects = projects.filter((project) => project !== currentProject);
+    const cards = relatedProjects.map((sourceProject) => {
+      const project = localizedProject(sourceProject, lang);
+      const imageSource = project.screenshot;
+      const imageAlt = lang === "hr" ? project.screenshotAltHr || project.screenshotAlt : project.screenshotAlt;
+      const image = imageSource
+        ? `<img src="${escapeHtml(imageSource)}" alt="${escapeHtml(imageAlt)}" width="2160" height="1215" loading="lazy" decoding="async">`
+        : `<div class="image-fallback" role="img" aria-label="${escapeHtml(project.screenshotAlt)}">${escapeHtml(project.placeholder || translate("casePlaceholderAlt", lang))}</div>`;
+      const href = caseUrl(project, lang);
+      return `<article class="project related-project-card">
+        <a class="project-image" href="${href}" aria-label="${escapeHtml(`${translate("moreProject", lang)}: ${project.name}`)}">${image}</a>
+        <div class="project-body">
+          <div class="project-kicker">${escapeHtml(project.cardCategory)}</div>
+          <h3><a href="${href}">${escapeHtml(project.name)}</a></h3>
+          <p>${escapeHtml(project.companyDescription)}</p>
+          <a class="project-link" href="${href}">${escapeHtml(translate("moreProject", lang))}</a>
+        </div>
+      </article>`;
+    }).join("");
+
+    return `<section class="next-project" data-project-carousel aria-labelledby="related-projects-title">
+      <div class="related-project-heading">
+        <div class="eyebrow">${escapeHtml(translate("exploreMoreProjects", lang))}</div>
+        <div class="carousel-controls" role="group" aria-label="${escapeHtml(translate("projectCarouselLabel", lang))}">
+          <button class="gallery-arrow" type="button" data-project-previous aria-label="${escapeHtml(translate("previousProjects", lang))}"><span aria-hidden="true">←</span></button>
+          <button class="gallery-arrow" type="button" data-project-next aria-label="${escapeHtml(translate("nextProjects", lang))}"><span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+      <h2 id="related-projects-title" class="visually-hidden">${escapeHtml(translate("exploreMoreProjects", lang))}</h2>
+      <div class="related-project-track" data-project-track tabindex="0" role="group" aria-roledescription="carousel" aria-label="${escapeHtml(translate("projectCarouselLabel", lang))}">
+        ${cards}
+      </div>
+    </section>`;
+  };
+
+  const initializeCaseGallery = (root) => {
+    const gallery = root.querySelector("[data-case-gallery]");
+    if (!gallery) return;
+    const images = [...gallery.querySelectorAll(".case-gallery-stage img")];
+    const indicators = [...gallery.querySelectorAll("[data-gallery-slide]")];
+    const counter = gallery.querySelector("[data-gallery-counter]");
+    let activeIndex = 0;
+
+    const showSlide = (index) => {
+      activeIndex = (index + images.length) % images.length;
+      images.forEach((image, imageIndex) => {
+        image.hidden = imageIndex !== activeIndex;
+        image.setAttribute("aria-hidden", String(imageIndex !== activeIndex));
+      });
+      indicators.forEach((indicator, indicatorIndex) => {
+        const active = indicatorIndex === activeIndex;
+        indicator.classList.toggle("is-active", active);
+        indicator.setAttribute("aria-pressed", String(active));
+      });
+      if (counter) {
+        counter.textContent = translate("galleryImagePosition")
+          .replace("{current}", String(activeIndex + 1).padStart(2, "0"))
+          .replace("{total}", String(images.length).padStart(2, "0"));
+      }
+    };
+
+    gallery.querySelector("[data-gallery-previous]")?.addEventListener("click", () => showSlide(activeIndex - 1));
+    gallery.querySelector("[data-gallery-next]")?.addEventListener("click", () => showSlide(activeIndex + 1));
+    indicators.forEach((indicator) => indicator.addEventListener("click", () => {
+      showSlide(Number(indicator.dataset.gallerySlide));
+    }));
+    gallery.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        event.preventDefault();
+        showSlide(activeIndex + (event.key === "ArrowRight" ? 1 : -1));
+      }
+    });
+
+    let pointerStart;
+    gallery.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "touch") pointerStart = { x: event.clientX, y: event.clientY };
+    });
+    gallery.addEventListener("pointerup", (event) => {
+      if (!pointerStart) return;
+      const deltaX = event.clientX - pointerStart.x;
+      const deltaY = event.clientY - pointerStart.y;
+      pointerStart = null;
+      if (Math.abs(deltaX) > 45 && Math.abs(deltaX) > Math.abs(deltaY)) {
+        showSlide(activeIndex + (deltaX < 0 ? 1 : -1));
+      }
+    });
+    gallery.addEventListener("pointercancel", () => {
+      pointerStart = null;
+    });
+  };
+
+  const initializeProjectCarousel = (root) => {
+    const carousel = root.querySelector("[data-project-carousel]");
+    const track = carousel?.querySelector("[data-project-track]");
+    if (!carousel || !track) return;
+    const previous = carousel.querySelector("[data-project-previous]");
+    const next = carousel.querySelector("[data-project-next]");
+
+    const updateControls = () => {
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      const scrollLeft = Math.max(0, track.scrollLeft);
+      if (previous) previous.disabled = scrollLeft <= 1;
+      if (next) next.disabled = maxScroll <= 1 || scrollLeft >= maxScroll - 1;
+    };
+    const scrollOneCard = (direction) => {
+      const cards = [...track.querySelectorAll(".related-project-card")];
+      if (!cards.length) return;
+      const firstCard = cards[0].getBoundingClientRect();
+      const secondCard = cards[1]?.getBoundingClientRect();
+      const step = secondCard ? secondCard.left - firstCard.left : firstCard.width;
+      if (step <= 0) return;
+      track.scrollBy({
+        left: direction * step,
+        behavior: reduceMotion.matches ? "auto" : "smooth"
+      });
+      window.requestAnimationFrame(updateControls);
+    };
+
+    previous?.addEventListener("click", () => scrollOneCard(-1));
+    next?.addEventListener("click", () => scrollOneCard(1));
+    track.addEventListener("scroll", updateControls, { passive: true });
+    track.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        event.preventDefault();
+        scrollOneCard(event.key === "ArrowRight" ? 1 : -1);
+      }
+    });
+    if ("ResizeObserver" in window) {
+      projectCarouselResizeObserver?.disconnect();
+      projectCarouselResizeObserver = new ResizeObserver(updateControls);
+      projectCarouselResizeObserver.observe(track);
+    }
+    updateControls();
+  };
+
   const renderCaseStudy = (lang) => {
     const main = document.querySelector("#case-content");
     if (!main) return;
@@ -315,11 +519,7 @@
     }
 
     const project = localizedProject(sourceProject, lang);
-    const projectIndex = projects.indexOf(sourceProject);
-    const next = projects[(projectIndex + 1) % projects.length];
-    const projectImage = project.screenshot
-      ? `<img src="${escapeHtml(project.screenshot)}" alt="${escapeHtml(project.screenshotAlt)}" width="2160" height="1215" fetchpriority="high">`
-      : `<div class="image-fallback" role="img" aria-label="${escapeHtml(translate("casePlaceholderAlt", lang))}">${escapeHtml(project.placeholder || translate("casePlaceholderAlt", lang))}</div>`;
+    const projectGallery = renderCaseGallery(project, lang);
     const contributions = project.contributions.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
     const technologies = project.technologies?.length
       ? project.technologies.map((item) => `<li>${escapeHtml(item)}</li>`).join("")
@@ -344,7 +544,7 @@
           <div><div class="meta-label">${escapeHtml(translate("factIndustry", lang))}</div><div class="meta-value">${escapeHtml(project.industry)}</div></div>
           <div><div class="meta-label">${escapeHtml(translate("caseTechnologies", lang))}</div><div class="meta-value">${escapeHtml(project.technologies?.join(" · ") || translate("v2TechnologyPlaceholder", lang))}</div></div>
         </div>
-        <figure class="case-visual">${projectImage}</figure>
+        ${projectGallery}
         <p class="case-visual-caption">${escapeHtml(translate("caseCaption", lang))}</p>
       </section>
       <div class="case-sections">
@@ -358,12 +558,10 @@
           <section><div class="case-index">${escapeHtml(translate("caseTechnologies", lang))}</div><h2>${escapeHtml(translate("caseTechnologies", lang))}</h2><ul class="technology-list">${technologies}</ul></section>
         </div>
       </div>
-      <section class="next-project">
-        <div class="eyebrow">${escapeHtml(translate("nextProject", lang))}</div>
-        <h2><a href="${caseUrl(next, lang)}">${escapeHtml(next.name)} ↗</a></h2>
-        <a class="text-link" href="index.html?lang=${lang}#work">${escapeHtml(translate("caseBack", lang))}</a>
-      </section>
+      ${renderRelatedProjects(sourceProject, lang)}
     </div>`;
+    initializeCaseGallery(main);
+    initializeProjectCarousel(main);
     updateMetadata({
       title: `${project.name} — ${translate("caseStudyPrefix", lang)} | Mate Nikić`,
       description: project.caseSummary,
@@ -394,69 +592,85 @@
     button.addEventListener("click", () => window.setPortfolioLanguage(button.dataset.language));
   });
 
-  document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
-    button.addEventListener("click", () => applyTheme(currentTheme() === "dark" ? "light" : "dark"));
-  });
-
   const logo = document.querySelector(".brand");
-  const logoLetters = [...(logo?.querySelectorAll("[data-logo-letter]") || [])];
-  const logoSeparator = logo?.querySelector("[data-logo-separator]");
+  const logoCharacters = [...(logo?.querySelectorAll("[data-logo-character]") || [])];
   const reduceLogoMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const coarsePointer = window.matchMedia("(pointer: coarse)");
-  let logoInterval;
-  let logoTimeout;
-  let pointerOnLogo = false;
+  let logoInterval = null;
   let separatorIsPlus = false;
 
-  const settleLogo = () => {
+  const resetLogo = () => {
     window.clearInterval(logoInterval);
-    window.clearTimeout(logoTimeout);
+    logoInterval = null;
     separatorIsPlus = false;
-    logoLetters.forEach((letter) => {
-      letter.textContent = letter.dataset.logoLetter;
-      letter.classList.remove("is-scrambling");
+    logoCharacters.forEach((character) => {
+      character.textContent = character.dataset.logoCharacter;
+      character.classList.remove("is-scrambling");
     });
-    if (logoSeparator) logoSeparator.textContent = "−";
   };
 
-  const startLogoScramble = (duration = 0) => {
-    settleLogo();
-    if (reduceLogoMotion.matches || coarsePointer.matches || logoLetters.length !== 2) return;
+  resetLogo();
+
+  const startLogoScramble = (event) => {
+    if (
+      logoInterval !== null ||
+      event.pointerType !== "mouse" ||
+      reduceLogoMotion.matches ||
+      coarsePointer.matches ||
+      logoCharacters.length !== 3
+    ) return;
     const scramble = () => {
-      logoLetters.forEach((letter) => {
-        letter.textContent = String.fromCharCode(65 + Math.floor(Math.random() * 26));
-        letter.classList.add("is-scrambling");
-      });
+      logoCharacters[0].textContent = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+      logoCharacters[2].textContent = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+      logoCharacters[0].classList.add("is-scrambling");
+      logoCharacters[2].classList.add("is-scrambling");
       separatorIsPlus = !separatorIsPlus;
-      if (logoSeparator) logoSeparator.textContent = separatorIsPlus ? "+" : "−";
+      logoCharacters[1].textContent = separatorIsPlus ? "+" : "−";
     };
     scramble();
     logoInterval = window.setInterval(scramble, 80);
-    if (duration) {
-      logoTimeout = window.setTimeout(() => {
-        if (!pointerOnLogo) settleLogo();
-      }, duration);
-    }
   };
 
-  logo?.addEventListener("pointerenter", (event) => {
-    if (event.pointerType === "touch" || coarsePointer.matches) return;
-    pointerOnLogo = true;
-    startLogoScramble();
+  logo?.addEventListener("pointerenter", startLogoScramble);
+  logo?.addEventListener("pointerleave", resetLogo);
+  logo?.addEventListener("pointercancel", resetLogo);
+  logo?.addEventListener("blur", resetLogo);
+  logo?.addEventListener("click", resetLogo);
+  window.addEventListener("blur", resetLogo);
+  window.addEventListener("pagehide", resetLogo);
+  const resetIfLogoMotionDisabled = () => {
+    if (reduceLogoMotion.matches || coarsePointer.matches) resetLogo();
+  };
+  if (reduceLogoMotion.addEventListener) reduceLogoMotion.addEventListener("change", resetIfLogoMotionDisabled);
+  else reduceLogoMotion.addListener?.(resetIfLogoMotionDisabled);
+  if (coarsePointer.addEventListener) coarsePointer.addEventListener("change", resetIfLogoMotionDisabled);
+  else coarsePointer.addListener?.(resetIfLogoMotionDisabled);
+
+  document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+    button.addEventListener("click", () => {
+      resetLogo();
+      applyTheme(currentTheme() === "dark" ? "light" : "dark");
+    });
   });
-  logo?.addEventListener("pointerleave", () => {
-    pointerOnLogo = false;
-    settleLogo();
-    if (logo.matches(":focus")) startLogoScramble(640);
-  });
-  logo?.addEventListener("focus", () => {
-    if (!pointerOnLogo) startLogoScramble(640);
-  });
-  logo?.addEventListener("blur", () => {
-    if (!pointerOnLogo) settleLogo();
-  });
-  reduceLogoMotion.addEventListener?.("change", () => {
-    if (reduceLogoMotion.matches) settleLogo();
+
+  const updateSystemTheme = (event) => {
+    if (!hasManualThemePreference) {
+      resetLogo();
+      applyTheme(event.matches ? "dark" : "light", false);
+    }
+  };
+  if (systemTheme.addEventListener) systemTheme.addEventListener("change", updateSystemTheme);
+  else systemTheme.addListener?.(updateSystemTheme);
+  window.addEventListener("storage", (event) => {
+    if (event.key !== "mate-portfolio-theme") return;
+    resetLogo();
+    if (event.newValue === "light" || event.newValue === "dark") {
+      hasManualThemePreference = true;
+      applyTheme(event.newValue, false);
+    } else if (event.newValue === null) {
+      hasManualThemePreference = false;
+      applyTheme(systemTheme.matches ? "dark" : "light", false);
+    }
   });
 
   const menu = document.querySelector("#menu-toggle");

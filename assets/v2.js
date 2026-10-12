@@ -261,14 +261,14 @@
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   const updateTimelineProgress = () => {
-    const shell = document.querySelector(".timeline-shell");
+    const track = document.querySelector(".timeline-track");
     const progress = document.querySelector(".timeline-progress");
-    if (!shell || !progress) return;
+    if (!track || !progress) return;
     if (reducedMotion.matches) {
       progress.style.height = "100%";
       return;
     }
-    const bounds = shell.getBoundingClientRect();
+    const bounds = track.getBoundingClientRect();
     const markerLine = window.innerHeight * 0.58;
     const amount = Math.min(1, Math.max(0, (markerLine - bounds.top) / Math.max(bounds.height, 1)));
     progress.style.height = `${amount * 100}%`;
@@ -354,8 +354,8 @@
 
     return `<figure class="case-visual case-gallery" data-case-gallery tabindex="0" role="group" aria-roledescription="carousel" aria-label="${escapeHtml(translate("caseGalleryLabel", lang))}">
       <div class="case-gallery-stage">${images}
-        <button class="gallery-arrow gallery-arrow-previous" type="button" data-gallery-previous aria-label="${escapeHtml(translate("previousImage", lang))}"><span aria-hidden="true">←</span></button>
-        <button class="gallery-arrow gallery-arrow-next" type="button" data-gallery-next aria-label="${escapeHtml(translate("nextImage", lang))}"><span aria-hidden="true">→</span></button>
+        <button class="gallery-arrow gallery-arrow-previous" type="button" data-gallery-previous aria-label="${escapeHtml(translate("previousImage", lang))}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 18 9 12l6-6"></path></svg></button>
+        <button class="gallery-arrow gallery-arrow-next" type="button" data-gallery-next aria-label="${escapeHtml(translate("nextImage", lang))}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></button>
       </div>
       <div class="case-gallery-controls">
         <div class="gallery-indicators" role="group" aria-label="${escapeHtml(translate("caseGalleryLabel", lang))}">${indicators}</div>
@@ -389,8 +389,8 @@
       <div class="related-project-heading">
         <div class="eyebrow">${escapeHtml(translate("exploreMoreProjects", lang))}</div>
         <div class="carousel-controls" role="group" aria-label="${escapeHtml(translate("projectCarouselLabel", lang))}">
-          <button class="gallery-arrow" type="button" data-project-previous aria-label="${escapeHtml(translate("previousProjects", lang))}"><span aria-hidden="true">←</span></button>
-          <button class="gallery-arrow" type="button" data-project-next aria-label="${escapeHtml(translate("nextProjects", lang))}"><span aria-hidden="true">→</span></button>
+          <button class="gallery-arrow" type="button" data-project-previous aria-label="${escapeHtml(translate("previousProjects", lang))}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 18 9 12l6-6"></path></svg></button>
+          <button class="gallery-arrow" type="button" data-project-next aria-label="${escapeHtml(translate("nextProjects", lang))}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"></path></svg></button>
         </div>
       </div>
       <h2 id="related-projects-title" class="visually-hidden">${escapeHtml(translate("exploreMoreProjects", lang))}</h2>

@@ -480,7 +480,18 @@ img {
   font-size: 11px;
   font-weight: 600;
   white-space: nowrap;
-  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.3s ease;
+}
+
+.contact-option.is-highlighted {
+  border-color: var(--accent-border-active);
+  background-color: rgba(255, 157, 40, 0.055);
+  box-shadow: inset 0 0 16px rgba(255, 157, 40, 0.06), 0 0 15px rgba(255, 157, 40, 0.12);
+}
+
+:root[data-theme="light"] .contact-option.is-highlighted {
+  background-color: rgba(184, 94, 0, 0.045);
+  box-shadow: inset 0 0 16px rgba(184, 94, 0, 0.04), 0 0 15px rgba(184, 94, 0, 0.08);
 }
 
 .contact-option:hover,
@@ -517,6 +528,30 @@ img {
   font-size: 12px;
   font-weight: 700;
   transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.linkedin-button {
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+  color: #0a66c2;
+}
+
+.linkedin-button svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  fill: #0a66c2;
+}
+
+.btn.secondary.linkedin-button:hover,
+.btn.secondary.linkedin-button:focus-visible {
+  border-color: rgba(10, 102, 194, 0.24);
+  background: rgba(10, 102, 194, 0.07);
+  color: #0a66c2;
 }
 
 .btn:hover {
@@ -774,11 +809,46 @@ img {
 }
 
 .area {
+  position: relative;
+  isolation: isolate;
   min-height: 175px;
   padding: 24px 25px 27px;
   border: 1px solid var(--line);
   border-radius: 7px;
   background: var(--panel-soft);
+  transition: color 200ms ease, background-color 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
+}
+
+.area::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(ellipse at 100% 0%, rgba(255, 157, 40, 0.085), transparent 62%);
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 320ms ease;
+}
+
+.area > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .area:hover {
+    border-color: var(--accent-border);
+    box-shadow: inset 0 0 20px rgba(255, 157, 40, 0.025);
+  }
+
+  .area:hover::before {
+    opacity: 1;
+  }
+}
+
+:root[data-theme="light"] .area::before {
+  background: radial-gradient(ellipse at 100% 0%, rgba(184, 94, 0, 0.065), transparent 62%);
 }
 
 .area-number {

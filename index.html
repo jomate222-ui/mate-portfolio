@@ -54,7 +54,7 @@
         <a href="#areas" data-nav="areas">Područja rada</a>
         <a href="#about" data-nav="about">O meni</a>
         <a href="#experience" data-nav="experience">Iskustvo</a>
-        <a href="#contact" data-nav="contact">Kontakt</a>
+        <a href="#hero-contact-options" data-nav="contact">Kontakt</a>
       </nav>
       <div class="navend">
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Promijeni u svijetlu temu" aria-pressed="false">
@@ -78,15 +78,18 @@
         <img class="hero-photo" src="assets/mate-portrait.png" alt="Portret Mate Nikića" data-v2-alt="portraitAlt" width="800" height="787" fetchpriority="high" decoding="async">
       </div>
       <div class="hero-copy reveal">
-        <div class="eyebrow" data-v2="heroEyebrow">GROWTH MARKETING OPERATIONS MANAGER</div>
+        <div class="eyebrow" data-v2="heroEyebrow">Marketing · Web · Dizajn · Tehnologija</div>
         <h1 id="hero-title">Mate Nikić</h1>
-        <p class="intro-strong" data-v2="heroIntro">Spajam marketing, tehnologiju i dizajn kako bih stvarao digitalna iskustva koja rade — ne samo dobro izgledaju.</p>
-        <p class="hero-detail" data-v2="heroDetail">Radim na web stranicama, automatizaciji, analitici i marketinškim sustavima, uz fokus na rješavanje stvarnih poslovnih problema.</p>
+        <p class="intro-strong" data-v2="heroIntro">Bavim se marketingom, izradom web stranica, dizajnom i tehnologijama koje pomažu poslovanju. Od prve ideje do gotovog rješenja.</p>
+        <p class="hero-detail" data-v2="heroDetail">Kad radim na nekom projektu, pokušavam razmišljati kao da je moj. Što bih napravio drugačije? Što bi moglo bolje funkcionirati? I kako to stvarno realizirati?</p>
         <div class="actions">
-          <a class="btn primary" href="#contact-dialog" data-v2="heroContact" data-contact-dialog-open>Javi se ↗</a>
-          <a class="btn secondary" href="#work" data-v2="heroWork">Pogledaj radove</a>
+          <a class="btn primary" href="#work" data-v2="heroProjects">Pogledaj projekte</a>
+          <a class="btn secondary" href="#about" data-v2="heroAbout">Više o meni</a>
+          <a class="btn secondary linkedin-button" href="https://www.linkedin.com/in/mate-niki%C4%87/" target="_blank" rel="noopener noreferrer" aria-label="Mate Nikić na LinkedInu" data-i18n-aria-label="linkedinLabel">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.2 8.6H2.1V22h3.1V8.6ZM3.7 2a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6ZM21.9 13.9c0-4-2.1-5.9-4.9-5.9a4.2 4.2 0 0 0-3.8 2.1V8.6h-3.1V22h3.1v-7.3c0-1.9.4-3.7 2.7-3.7s2.3 2.1 2.3 3.8V22h3.2l.5-8.1Z"></path></svg>
+          </a>
         </div>
-        <nav class="hero-contact-options" aria-label="Kontakt" data-v2-aria-label="contactOptionsLabel">
+        <nav class="hero-contact-options" id="hero-contact-options" aria-label="Kontakt" data-v2-aria-label="contactOptionsLabel">
           <a class="contact-option" href="tel:+385993852422">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.8 9.1 3l2 4.8-2.2 1.5a14 14 0 0 0 5.8 5.8l1.5-2.2 4.8 2-.8 2.5a2 2 0 0 1-2 1.4A16.5 16.5 0 0 1 5.2 6a2 2 0 0 1 1.4-2.2Z"></path></svg>
             <span data-i18n="contactCall">Telefon</span>
@@ -113,9 +116,9 @@
         <div class="section-top reveal">
           <div>
             <div class="eyebrow" data-v2="workEyebrow">01 / ODABRANI RADOVI</div>
-            <h2 id="work-title" data-v2="workTitle">Projekti izgrađeni oko stvarnih izazova.</h2>
+            <h2 id="work-title" data-v2="workTitle">Neki od projekata na kojima sam radio.</h2>
           </div>
-          <p class="section-sub" data-v2="workIntro">Od korporativnih platformi do manjih brendova. Jednostavna, funkcionalna i promišljena digitalna rješenja.</p>
+          <p class="section-sub" data-v2="workIntro">Neki su krenuli od praznog ekrana, neki od postojećeg problema. U svakom sam imao priliku nešto osmisliti, izraditi ili unaprijediti.</p>
         </div>
         <div class="project-filters" id="project-filters" role="group" aria-label="Kategorija usluge" data-i18n-aria-label="filterGroup">
           <button class="project-filter is-active" type="button" data-project-filter="all" aria-pressed="true">Sve</button>
@@ -134,8 +137,9 @@
         <div class="section-top reveal">
           <div>
             <div class="eyebrow" data-v2="areasEyebrow">02 / PODRUČJA RADA</div>
-            <h2 id="areas-title" data-v2="areasTitle">Od dobre ideje do boljeg digitalnog iskustva.</h2>
+            <h2 id="areas-title" data-v2="areasTitle">Od web stranice do cijelog marketing sustava.</h2>
           </div>
+          <p class="section-sub" data-v2="areasIntro">Ne mora svaki projekt uključivati sve navedeno. Nekad treba samo dobra web stranica, a nekad povezati više stvari da sve funkcionira kako treba.</p>
         </div>
         <div class="areas" id="expertise-list"></div>
       </div>
@@ -146,24 +150,26 @@
         <div class="section-top reveal">
           <div>
             <div class="eyebrow" data-v2="aboutEyebrow">03 / O MENI</div>
-            <h2 id="about-title" data-v2="aboutTitle">Dobar digitalni posao počinje razumijevanjem.</h2>
+            <h2 id="about-title" data-v2="aboutTitle">Ne gledam samo svoj dio posla.</h2>
           </div>
         </div>
         <div class="about-grid">
           <div class="about-copy reveal">
-            <p class="about-lead" data-v2="aboutIntro">Povezujem marketing, tehnologiju i poslovne potrebe.</p>
+            <p class="about-lead" data-v2="aboutIntro">Kada radim na nekom projektu, pokušavam ga gledati očima osobe koja stoji iza tog posla.</p>
+            <p data-v2="aboutBodyOne">Zanima me zašto se nešto radi, kome je namijenjeno i što se time želi postići. Ne volim raditi stvari samo zato što su tako zamišljene na početku. Ako mislim da postoji bolje ili jednostavnije rješenje, reći ću to.</p>
+            <p data-v2="aboutBodyTwo">Kroz godine sam naučio raditi dosta različitih stvari, od dizajna i izrade web stranica do oglašavanja, analitike i automatizacije. Upravo mi to pomaže da razumijem širu sliku, a ne samo jedan zadatak.</p>
             <div class="about-summary">
-              <h3 data-i18n="aboutHelpHeading">Kako ti mogu pomoći?</h3>
+              <h3 data-v2="aboutValuesHeading">Nekoliko stvari koje su mi važne:</h3>
               <ul class="about-points">
-                <li data-i18n="aboutHelp1">Razmišljam kao vlasnik biznisa, a ne samo kao netko tko izvršava zadatak.</li>
-                <li data-i18n="aboutHelp2">Volim prvo istražiti problem, a tek onda predložiti rješenje.</li>
-                <li data-i18n="aboutHelp3">Ne zanima me najbrže rješenje ako dugoročno nema smisla.</li>
-                <li data-i18n="aboutHelp4">Spajam marketing, web, dizajn, analitiku i automatizaciju.</li>
-                <li data-i18n="aboutHelp5">Kad projekt traži dodatnu ekspertizu, uključujem provjerene vanjske suradnike.</li>
-                <li data-i18n="aboutHelp6">Imam široku mrežu kontakata i znam povezati prave ljude.</li>
-                <li data-i18n="aboutHelp7">Najviše me veseli kad pomognem nekom poslovanju prijeći na višu razinu.</li>
+                <li data-v2="aboutValue1">Volim razumjeti posao prije nego što krenem nešto raditi.</li>
+                <li data-v2="aboutValue2">Ne kompliciram stvari koje mogu biti jednostavne.</li>
+                <li data-v2="aboutValue3">Ako nešto ne znam, istražit ću i naučiti.</li>
+                <li data-v2="aboutValue4">Radije ću predložiti bolje rješenje nego samo odraditi zadatak.</li>
+                <li data-v2="aboutValue5">Važno mi je da ono što napravim stvarno bude korisno.</li>
+                <li data-v2="aboutValue6">Volim imati slobodu razmišljati, ali i odgovornost završiti posao.</li>
               </ul>
             </div>
+            <p data-v2="aboutClosing">I da, često se uhvatim kako razmišljam o projektu i nakon što zatvorim laptop.</p>
             <a class="text-link" href="#contact" data-v2="aboutContact">Razgovarajmo o tome što vam treba ↗</a>
           </div>
           <div class="about-aside reveal">
@@ -187,24 +193,23 @@
       <div class="wrap">
         <div class="section-top reveal">
           <div>
-            <div class="eyebrow" data-v2="timelineEyebrow">04 / PROFESIONALNI PUT</div>
-            <h2 id="experience-title" data-v2="timelineTitle">Iskustvo nastaje korak po korak.</h2>
+            <div class="eyebrow" data-v2="timelineEyebrow">04 / MOJ PUT</div>
+            <h2 id="experience-title" data-v2="timelineTitle">Sve je krenulo s nekoliko web stranica.</h2>
           </div>
-          <p class="section-sub" data-v2="timelineIntro">Nekoliko važnih etapa koje su oblikovale moj rad na spoju marketinga, tehnologije i poslovanja.</p>
+          <p class="section-sub" data-v2="timelineIntro">Od prvih projekata za prijatelje do rada na digitalnim sustavima u softverskoj industriji. Usput sam stalno učio, isprobavao nove stvari i širio ono čime se bavim.</p>
         </div>
         <div class="timeline-shell">
           <div class="timeline-track" aria-hidden="true"><span class="timeline-progress"></span></div>
           <ol class="career-timeline" id="career-timeline" aria-label="Profesionalno iskustvo" data-v2-aria-label="timelineListLabel"></ol>
         </div>
-        <p class="timeline-note" data-i18n="timelineNote">Rani datumi i pojedinosti karijere označeni su za potvrdu.</p>
       </div>
     </section>
 
     <section class="contact" id="contact" aria-labelledby="contact-title">
       <div class="wrap">
         <div class="eyebrow" data-v2="contactEyebrow">05 / KONTAKT</div>
-        <h2 class="reveal" id="contact-title" data-v2-html="contactTitle">Imate ideju?<br><span>Razgovarajmo.</span></h2>
-        <p data-v2="contactIntro">Za zanimljive projekte i suradnje — slobodno mi se javite.</p>
+        <h2 class="reveal" id="contact-title" data-v2-html="contactTitle">Misliš da ti mogu pomoći?<br><span>Javi mi se.</span></h2>
+        <p data-v2="contactIntro">Ako imaš projekt, problem koji pokušavaš riješiti ili samo želiš razmijeniti nekoliko ideja, slobodno mi se javi. Ne moramo odmah imati gotov plan.</p>
         <div class="actions contact-actions">
           <a class="btn primary" href="mailto:matenikicbiz@gmail.com" data-v2="contactEmail">E-mail ↗</a>
           <a class="btn secondary" href="#contact-dialog" data-contact-dialog-open data-i18n="contactFormOpen">Otvori kontaktni obrazac</a>

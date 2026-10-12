@@ -252,15 +252,15 @@
         ? lang === "hr" ? project.cardImageAltHr || project.cardImageAlt : project.cardImageAlt
         : lang === "hr" ? project.screenshotAltHr || project.screenshotAlt : project.screenshotAlt;
       const image = cardImage
-        ? `<img src="${escapeHtml(cardImage)}" alt="${escapeHtml(imageAlt)}" width="${project.cardImage ? 1536 : 2160}" height="${project.cardImage ? 1024 : 1215}" loading="lazy" decoding="async">`
+        ? `<img src="${escapeHtml(cardImage)}" alt="${escapeHtml(imageAlt)}" width="${project.cardImageWidth || (project.cardImage ? 1536 : 2160)}" height="${project.cardImageHeight || (project.cardImage ? 1024 : 1215)}" loading="lazy" decoding="async">`
         : `<div class="image-fallback" role="img" aria-label="${escapeHtml(project.screenshotAlt)}">${escapeHtml(project.placeholder || translate("casePlaceholderAlt", lang))}</div>`;
       return `<article class="project reveal" style="--reveal-delay: ${revealDelay}ms">
         <a class="project-image${project.cardImage ? " project-image-contain" : ""}" href="${caseUrl(project, lang)}" aria-label="${escapeHtml(`${translate("moreProject", lang)}: ${project.name}`)}">${image}</a>
         <div class="project-body">
-          <div class="project-kicker">${escapeHtml(project.cardCategory)}</div>
-          <h3><a href="${caseUrl(project, lang)}">${escapeHtml(project.name)}</a></h3>
-          <p>${escapeHtml(project.companyDescription)}</p>
-          <a class="project-link" href="${caseUrl(project, lang)}">${escapeHtml(translate("moreProject", lang))}</a>
+          <div class="project-kicker">${escapeHtml(project.name)}</div>
+          <h3><a href="${caseUrl(project, lang)}">${escapeHtml(project.cardTitle)}</a></h3>
+          <p>${escapeHtml(project.cardDescription)}</p>
+          <a class="project-link" href="${caseUrl(project, lang)}">${escapeHtml(translate("projectCardLink", lang))}</a>
         </div>
       </article>`;
     }).join("");
@@ -882,6 +882,67 @@
     menu.setAttribute("aria-expanded", String(open));
   });
   navigation?.querySelectorAll("a").forEach((anchor) => anchor.addEventListener("click", closeMenu));
+  const contactNavLink = navigation?.querySelector('[data-nav="contact"]');
+  const contactOptions = document.querySelector("#hero-contact-options");
+  const contactButtons = contactOptions ? [...contactOptions.querySelectorAll(".contact-option")] : [];
+  let contactHighlightTimer = 0;
+  let contactScrollFrame = 0;
+  const highlightContactOptions = () => {
+    contactButtons.forEach((button) => button.classList.add("is-highlighted"));
+    window.clearTimeout(contactHighlightTimer);
+    contactHighlightTimer = window.setTimeout(() => {
+      contactButtons.forEach((button) => button.classList.remove("is-highlighted"));
+      contactHighlightTimer = 0;
+    }, 1000);
+  };
+  contactNavLink?.addEventListener("click", (event) => {
+    if (!contactOptions) return;
+    event.preventDefault();
+    closeMenu();
+
+    const hash = `#${contactOptions.id}`;
+    if (window.location.hash !== hash) {
+      window.history.pushState(window.history.state, "", hash);
+    }
+    if (contactScrollFrame) window.cancelAnimationFrame(contactScrollFrame);
+    window.clearTimeout(contactHighlightTimer);
+
+    const header = document.querySelector(".header");
+    const bounds = contactOptions.getBoundingClientRect();
+    const fullyVisible = bounds.top >= (header?.getBoundingClientRect().bottom || 0)
+      && bounds.bottom <= window.innerHeight;
+    if (fullyVisible) {
+      highlightContactOptions();
+      return;
+    }
+    if (reduceMotion.matches) {
+      contactOptions.scrollIntoView({ behavior: "instant", block: "center" });
+      highlightContactOptions();
+      return;
+    }
+
+    let previousTop = bounds.top;
+    let hasMoved = false;
+    let stableFrames = 0;
+    contactOptions.scrollIntoView({ behavior: "smooth", block: "center" });
+    const waitForScrollToSettle = () => {
+      const currentTop = contactOptions.getBoundingClientRect().top;
+      if (Math.abs(currentTop - previousTop) > 0.5) {
+        hasMoved = true;
+        stableFrames = 0;
+      } else {
+        stableFrames += 1;
+      }
+      previousTop = currentTop;
+      if ((hasMoved && stableFrames >= 4) || (!hasMoved && stableFrames >= 8)) {
+        contactScrollFrame = 0;
+        highlightContactOptions();
+        return;
+      }
+      contactScrollFrame = window.requestAnimationFrame(waitForScrollToSettle);
+    };
+    contactScrollFrame = window.requestAnimationFrame(waitForScrollToSettle);
+  });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeMenu();
   });

@@ -6,7 +6,6 @@
   let tickerResizeObserver;
   let tickerAnimation = null;
   let tickerLayoutSignature = "";
-  let selectedProjectCategory = "all";
   if (!Array.isArray(projects) || !content) {
     throw new Error("Portfolio V2 content could not be loaded.");
   }
@@ -30,6 +29,25 @@
     .join("");
   const caseUrl = (project, lang = language()) =>
     `case-study.html?id=${encodeURIComponent(project.id)}&lang=${lang}`;
+  const studioLaptopImages = new Set([
+    "Software Website.png",
+    "MyRBQM Academy Laptop Mockup (1).png",
+    "RBQM Academy Laptop Mockup (1).png",
+    "SEA Esthetic Academy Laptop Mockup (1).png",
+    "SEA Academy Login Laptop Mockup (1).png",
+    "Modern Purple Fitness Website Mockup (1).png",
+    "Fitness Journey Laptop Mockup (1).png",
+    "Dual Laptop Website Mockup (1).png",
+    "PROMAT Projekti Website Mockup (2).png",
+    "SkyBox Global Business Website Mockup (1).png",
+    "Laptop Survey Modal Mockup (1).png",
+    "Dual Laptop Website Mockups (1).png",
+    "NK Gavran 2003 Website Mockup (1).png",
+    "Laptop Mockup for Memorial Services Website (1).png",
+    "Modern Laptop with Blue Corporate UI (1).png",
+    "Fit-for-Purpose Analytics Laptop Mockup (1).png"
+  ]);
+  const hasStudioBackground = (src) => studioLaptopImages.has(decodeURI(src).split("/").pop());
 
   const updateUrlLanguage = (lang) => {
     const url = new URL(window.location.href);
@@ -48,18 +66,6 @@
     document.querySelectorAll("[data-meet-request]").forEach((link) => {
       link.href = `mailto:matenikicbiz@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
     });
-    const messageField = document.querySelector("[data-contact-prefill]");
-    if (messageField) {
-      const previousPrefill = messageField.dataset.contactPrefill || translate("contactMessagePrefill", "hr");
-      if (messageField.value === previousPrefill) {
-        messageField.value = translate("contactMessagePrefill", lang);
-      }
-      messageField.dataset.contactPrefill = translate("contactMessagePrefill", lang);
-    }
-    const feedback = document.querySelector("[data-contact-feedback]");
-    if (feedback?.dataset.emailFallback === "true") {
-      feedback.textContent = translate("contactFormFallbackNotice", lang);
-    }
   };
 
   const currentTheme = () => document.documentElement.dataset.theme === "light" ? "light" : "dark";
@@ -240,21 +246,13 @@
   const renderProjects = (lang) => {
     const grid = document.querySelector("#projects");
     if (!grid) return;
-    const visibleProjects = selectedProjectCategory === "all"
-      ? projects
-      : projects.filter((project) => project.filterCategories?.includes(selectedProjectCategory));
-    if (!visibleProjects.length) {
-      grid.innerHTML = `<p class="project-empty">${escapeHtml(translate("noProjectsInCategory", lang))}</p>`;
-      return;
-    }
-    grid.innerHTML = visibleProjects.map((sourceProject) => {
-      const index = projects.indexOf(sourceProject);
+    grid.innerHTML = projects.map((sourceProject, index) => {
       const project = localizedProject(sourceProject, lang);
       const revealDelay = Math.min(index * 65, 390);
       const cardImage = project.cardImage;
       const imageAlt = lang === "hr" ? project.cardImageAltHr || project.cardImageAlt : project.cardImageAlt;
       const image = cardImage
-        ? `<a class="project-image project-image-contain" href="${caseUrl(project, lang)}" aria-label="${escapeHtml(`${translate("moreProject", lang)}: ${project.name}`)}"><img src="${escapeHtml(cardImage)}" alt="${escapeHtml(imageAlt || project.name)}" width="${project.cardImageWidth || 1536}" height="${project.cardImageHeight || 1024}" loading="lazy" decoding="async"></a>`
+        ? `<a class="project-image project-image-contain${hasStudioBackground(cardImage) ? " project-image-studio" : ""}" href="${caseUrl(project, lang)}" aria-label="${escapeHtml(`${translate("moreProject", lang)}: ${project.name}`)}"><img src="${escapeHtml(cardImage)}" alt="${escapeHtml(imageAlt || project.name)}" width="${project.cardImageWidth || 1536}" height="${project.cardImageHeight || 1024}" loading="lazy" decoding="async"></a>`
         : "";
       return `<article class="project reveal" style="--reveal-delay: ${revealDelay}ms">
         ${image}
@@ -267,35 +265,6 @@
       </article>`;
     }).join("");
     window.observePortfolioReveals?.(grid);
-  };
-
-  const renderProjectFilters = (lang) => {
-    const filters = document.querySelector("#project-filters");
-    if (!filters) return;
-    filters.setAttribute("aria-label", translate("filterGroup", lang));
-    const categories = [
-      ["all", "projectFilterAll"],
-      ["web", "projectFilterWeb"],
-      ["advertising", "projectFilterAdvertising"],
-      ["design", "projectFilterDesign"],
-      ["automation", "projectFilterAutomation"],
-      ["lead-generation", "projectFilterLeadGeneration"]
-    ];
-    filters.innerHTML = categories.map(([category, key]) => {
-      const active = category === selectedProjectCategory;
-      return `<button class="project-filter${active ? " is-active" : ""}" type="button" data-project-filter="${category}" aria-pressed="${active}">${escapeHtml(translate(key, lang))}</button>`;
-    }).join("");
-    filters.querySelectorAll("[data-project-filter]").forEach((button) => {
-      button.addEventListener("click", () => {
-        selectedProjectCategory = button.dataset.projectFilter;
-        filters.querySelectorAll("[data-project-filter]").forEach((filter) => {
-          const active = filter.dataset.projectFilter === selectedProjectCategory;
-          filter.classList.toggle("is-active", active);
-          filter.setAttribute("aria-pressed", String(active));
-        });
-        renderProjects(language());
-      });
-    });
   };
 
   const renderExpertise = (lang) => {
@@ -446,8 +415,14 @@
     const slides = getGallerySlides(project, lang);
     if (!slides.length) return "";
 
-    const images = slides.map((slide, index) => `
-      <img${slide.presentation === "logo" ? ' class="gallery-image-logo"' : ""} src="${escapeHtml(encodeURI(slide.src))}" alt="${escapeHtml(slide.alt)}" width="${slide.width || 2160}" height="${slide.height || 1215}" ${index ? 'loading="lazy"' : 'fetchpriority="high"'} decoding="async" aria-hidden="${index !== 0}"${index ? " hidden" : ""}>`).join("");
+    const images = slides.map((slide, index) => {
+      const classes = [
+        slide.presentation === "logo" ? "gallery-image-logo" : "",
+        hasStudioBackground(slide.src) ? "gallery-image-studio" : ""
+      ].filter(Boolean).join(" ");
+      return `
+      <img${classes ? ` class="${classes}"` : ""} src="${escapeHtml(encodeURI(slide.src))}" alt="${escapeHtml(slide.alt)}" width="${slide.width || 2160}" height="${slide.height || 1215}" ${index ? 'loading="lazy"' : 'fetchpriority="high"'} decoding="async" aria-hidden="${index !== 0}"${index ? " hidden" : ""}>`;
+    }).join("");
     if (slides.length === 1) {
       return `<figure class="case-visual case-gallery-single">${images}</figure>`;
     }
@@ -477,7 +452,7 @@
       const imageSource = project.cardImage;
       const imageAlt = lang === "hr" ? project.cardImageAltHr || project.cardImageAlt : project.cardImageAlt;
       const image = imageSource
-        ? `<a class="project-image project-image-contain" href="${caseUrl(project, lang)}" aria-label="${escapeHtml(`${translate("moreProject", lang)}: ${project.name}`)}"><img src="${escapeHtml(imageSource)}" alt="${escapeHtml(imageAlt || project.name)}" width="${project.cardImageWidth || 1536}" height="${project.cardImageHeight || 1024}" loading="lazy" decoding="async"></a>`
+        ? `<a class="project-image project-image-contain${hasStudioBackground(imageSource) ? " project-image-studio" : ""}" href="${caseUrl(project, lang)}" aria-label="${escapeHtml(`${translate("moreProject", lang)}: ${project.name}`)}"><img src="${escapeHtml(imageSource)}" alt="${escapeHtml(imageAlt || project.name)}" width="${project.cardImageWidth || 1536}" height="${project.cardImageHeight || 1024}" loading="lazy" decoding="async"></a>`
         : "";
       const href = caseUrl(project, lang);
       return `<article class="project related-project-card">
@@ -642,7 +617,7 @@
         <p class="case-lead">${escapeHtml(project.lead)}</p>
         <div class="actions">
           ${liveLink}
-          <a class="btn secondary" href="index.html?lang=${lang}#contact">${escapeHtml(translate("caseContact", lang))}</a>
+          <a class="btn secondary" href="index.html?lang=${lang}#hero-contact-options">${escapeHtml(translate("caseContact", lang))}</a>
         </div>
         <div class="case-meta">
           <div><div class="meta-label">${escapeHtml(translate("factRoleCase", lang))}</div><div class="meta-value">${escapeHtml(project.role)}</div></div>
@@ -681,7 +656,6 @@
     const selectedLanguage = language();
     updateCommonContent(selectedLanguage);
     if (document.querySelector("#projects")) {
-      renderProjectFilters(selectedLanguage);
       renderProjects(selectedLanguage);
       renderExpertise(selectedLanguage);
       renderTimeline(selectedLanguage);
@@ -694,86 +668,6 @@
   };
 
   window.renderPortfolioLanguage = (lang) => render(lang);
-
-  const initializeContactDialog = () => {
-    const dialog = document.querySelector("#contact-dialog");
-    const form = dialog?.querySelector("[data-contact-form]");
-    if (!dialog || !form || typeof dialog.showModal !== "function") return;
-    const closeButton = dialog.querySelector("[data-contact-dialog-close]");
-    const feedback = dialog.querySelector("[data-contact-feedback]");
-    const messageField = dialog.querySelector("[data-contact-prefill]");
-    const focusableSelector = 'a[href], button:not(:disabled), input:not(:disabled), textarea:not(:disabled), select:not(:disabled), [tabindex]:not([tabindex="-1"])';
-    let trigger = null;
-    let previousBodyOverflow = "";
-
-    const openDialog = (event) => {
-      event.preventDefault();
-      if (dialog.open) return;
-      trigger = event.currentTarget;
-      previousBodyOverflow = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      form.reset();
-      if (messageField) {
-        messageField.value = translate("contactMessagePrefill");
-        messageField.dataset.contactPrefill = messageField.value;
-      }
-      if (feedback) {
-        feedback.textContent = "";
-        delete feedback.dataset.emailFallback;
-      }
-      dialog.showModal();
-      dialog.querySelector("#contact-name")?.focus();
-    };
-
-    document.querySelectorAll("[data-contact-dialog-open]").forEach((button) => {
-      button.addEventListener("click", openDialog);
-    });
-    closeButton?.addEventListener("click", () => dialog.close());
-    dialog.addEventListener("click", (event) => {
-      if (event.target === dialog) dialog.close();
-    });
-    dialog.addEventListener("close", () => {
-      document.body.style.overflow = previousBodyOverflow;
-      trigger?.focus({ preventScroll: true });
-      trigger = null;
-    });
-    dialog.addEventListener("keydown", (event) => {
-      if (event.key !== "Tab") return;
-      const focusable = [...dialog.querySelectorAll(focusableSelector)]
-        .filter((element) => element.getClientRects().length > 0);
-      if (!focusable.length) {
-        event.preventDefault();
-        dialog.focus();
-        return;
-      }
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    });
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      if (!form.reportValidity()) return;
-      const values = new FormData(form);
-      const subject = translate("contactFormSubject");
-      const body = [
-        `${translate("contactNameLabel")}: ${values.get("name")}`,
-        `${translate("contactEmailLabel")}: ${values.get("email")}`,
-        "",
-        values.get("message")
-      ].join("\n");
-      if (feedback) {
-        feedback.textContent = translate("contactFormFallbackNotice");
-        feedback.dataset.emailFallback = "true";
-      }
-      window.location.href = `mailto:matenikicbiz@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    });
-  };
 
   document.querySelectorAll(".language-switch [data-language]").forEach((button) => {
     button.addEventListener("click", () => window.setPortfolioLanguage(button.dataset.language));
@@ -871,12 +765,12 @@
     menu.setAttribute("aria-expanded", String(open));
   });
   navigation?.querySelectorAll("a").forEach((anchor) => anchor.addEventListener("click", closeMenu));
-  const contactNavLink = navigation?.querySelector('[data-nav="contact"]');
   const contactOptions = document.querySelector("#hero-contact-options");
   const contactButtons = contactOptions ? [...contactOptions.querySelectorAll(".contact-option")] : [];
   let contactHighlightTimer = 0;
   let contactScrollFrame = 0;
   const highlightContactOptions = () => {
+    if (!contactOptions) return;
     contactButtons.forEach((button) => button.classList.add("is-highlighted"));
     window.clearTimeout(contactHighlightTimer);
     contactHighlightTimer = window.setTimeout(() => {
@@ -884,13 +778,12 @@
       contactHighlightTimer = 0;
     }, 1000);
   };
-  contactNavLink?.addEventListener("click", (event) => {
+  const scrollToContactOptions = (updateHash = false) => {
     if (!contactOptions) return;
-    event.preventDefault();
     closeMenu();
 
     const hash = `#${contactOptions.id}`;
-    if (window.location.hash !== hash) {
+    if (updateHash && window.location.hash !== hash) {
       window.history.pushState(window.history.state, "", hash);
     }
     if (contactScrollFrame) window.cancelAnimationFrame(contactScrollFrame);
@@ -900,12 +793,8 @@
     const bounds = contactOptions.getBoundingClientRect();
     const fullyVisible = bounds.top >= (header?.getBoundingClientRect().bottom || 0)
       && bounds.bottom <= window.innerHeight;
-    if (fullyVisible) {
-      highlightContactOptions();
-      return;
-    }
-    if (reduceMotion.matches) {
-      contactOptions.scrollIntoView({ behavior: "instant", block: "center" });
+    if (fullyVisible || reduceMotion.matches) {
+      if (!fullyVisible) contactOptions.scrollIntoView({ behavior: "auto", block: "center" });
       highlightContactOptions();
       return;
     }
@@ -913,6 +802,7 @@
     let previousTop = bounds.top;
     let hasMoved = false;
     let stableFrames = 0;
+    const startTime = performance.now();
     contactOptions.scrollIntoView({ behavior: "smooth", block: "center" });
     const waitForScrollToSettle = () => {
       const currentTop = contactOptions.getBoundingClientRect().top;
@@ -923,7 +813,7 @@
         stableFrames += 1;
       }
       previousTop = currentTop;
-      if ((hasMoved && stableFrames >= 4) || (!hasMoved && stableFrames >= 8)) {
+      if ((hasMoved && stableFrames >= 5) || (!hasMoved && stableFrames >= 8) || performance.now() - startTime >= 5000) {
         contactScrollFrame = 0;
         highlightContactOptions();
         return;
@@ -931,6 +821,12 @@
       contactScrollFrame = window.requestAnimationFrame(waitForScrollToSettle);
     };
     contactScrollFrame = window.requestAnimationFrame(waitForScrollToSettle);
+  };
+  document.querySelectorAll("[data-contact-anchor]").forEach((anchor) => {
+    anchor.addEventListener("click", (event) => {
+      event.preventDefault();
+      scrollToContactOptions(true);
+    });
   });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeMenu();
@@ -946,7 +842,7 @@
   document.documentElement.classList.add("js");
   window.renderPortfolioLanguage(window.getPortfolioLanguage());
   updateThemeControls();
-  initializeContactDialog();
+  if (window.location.hash === "#hero-contact-options") scrollToContactOptions();
 
   const tickerTrack = document.querySelector("#ticker-track");
   if (tickerTrack) {

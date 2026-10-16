@@ -35,11 +35,18 @@
     if (toggle) toggle.setAttribute("aria-label", t("menu"));
     document.querySelectorAll(".navlinks a").forEach((anchor) => {
       const href = anchor.getAttribute("href") || "";
+      const contactLink = href.includes("#contact") || href.includes("#hero-contact-options");
       const key = href.includes("#work") ? "navProjects"
         : href.includes("#expertise") ? "navExpertise"
           : href.includes("#about") ? "navAbout"
-            : href.includes("#contact") ? "navContact" : null;
-      if (key) anchor.textContent = t(key);
+            : contactLink ? "navContact" : null;
+      if (key) {
+        anchor.textContent = t(key);
+        if (key === "navContact") {
+          const home = window.location.pathname.includes("/projects/") ? "../../index.html" : "index.html";
+          anchor.href = `${home}?lang=${language()}#hero-contact-options`;
+        }
+      }
     });
   };
 

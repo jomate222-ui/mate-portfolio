@@ -157,7 +157,7 @@
       <div class="eyebrow" style="margin-top:42px">${escapeHtml(t("caseStudyPrefix", language))} / ${escapeHtml(project.number)} · ${escapeHtml(project.caseCategory)}</div>
       <h1>${escapeHtml(project.name)}</h1>
       <p class="lead">${escapeHtml(project.lead)}</p>
-      <div class="actions">${liveAction}<a class="btn" href="../../index.html#contact">${escapeHtml(t("caseContact", language))}</a></div>
+      <div class="actions">${liveAction}<a class="btn" href="../../index.html?lang=${language}#hero-contact-options">${escapeHtml(t("caseContact", language))}</a></div>
       <div class="case-facts">
         <div><span>${escapeHtml(t("factIndustry", language))}</span><strong>${escapeHtml(project.industry)}</strong></div>
         <div><span>${escapeHtml(t("factRoleCase", language))}</span><strong>${escapeHtml(project.role)}</strong></div>
